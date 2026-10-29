@@ -73,3 +73,4 @@ export class InquiryService {
     return this.inquiriesSubject.value.filter(i => i.senderEmail.toLowerCase() === senderEmail.toLowerCase());
   }
 }
+

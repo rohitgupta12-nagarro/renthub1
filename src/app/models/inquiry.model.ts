@@ -11,3 +11,4 @@ export interface Inquiry {
   createdAt: string;
   status: 'pending' | 'accepted' | 'declined';
 }
+

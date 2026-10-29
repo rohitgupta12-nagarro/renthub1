@@ -65,7 +65,7 @@ describe('CreatePostComponent', () => {
     component.fillDemoData();
     expect(component.postForm.valid).toBe(true);
     expect(component.postForm.get('buildingName')?.value).toContain('Silver Oaks');
-    expect(component.postForm.get('rent')?.value).toBe(2600);
+    expect(component.postForm.get('rent')?.value).toBe(28000);
   });
 
   it('should save draft post and navigate to preview on valid submit', () => {
@@ -80,3 +80,4 @@ describe('CreatePostComponent', () => {
     expect(savedDraft?.buildingName).toContain('Silver Oaks');
   });
 });
+

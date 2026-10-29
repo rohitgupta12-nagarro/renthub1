@@ -285,7 +285,7 @@
             <div class="card border rounded-4 p-4 bg-white shadow-sm mb-4">
               <span class="text-muted small text-uppercase fw-bold tracking-wider">Expected Rent</span>
               <div class="d-flex align-items-baseline gap-1 my-2">
-                <span class="display-6 fw-bold text-primary">${{ apartment.rent | number }}</span>
+                <span class="display-6 fw-bold text-primary">₹{{ apartment.rent | number }}</span>
                 <span class="text-muted">/ {{ apartment.priceMode === 'Per Month' ? 'month' : 'month (utilities included)' }}</span>
               </div>
 
@@ -297,25 +297,26 @@
                 </div>
               }
 
-              <!-- Favorite Toggle Action -->
-              <button
-                class="btn w-100 py-2-5 fw-semibold rounded-3 mb-2 d-flex align-items-center justify-content-center gap-2"
-                [class.btn-danger]="favoritesService.isFavorite(apartment.id)"
-                [class.btn-outline-danger]="!favoritesService.isFavorite(apartment.id)"
-                (click)="toggleFavorite()"
-              >
-                <i class="bi fs-5" [class.bi-heart-fill]="favoritesService.isFavorite(apartment.id)" [class.bi-heart]="!favoritesService.isFavorite(apartment.id)"></i>
-                <span>{{ favoritesService.isFavorite(apartment.id) ? 'Saved in Your Favorites' : 'Mark as Favorite' }}</span>
-              </button>
+              <!-- Action: Send Direct Inquiry & Favorite Heart -->
+              <div class="d-flex gap-2 mb-2">
+                <button
+                  class="btn btn-primary flex-grow-1 py-2-5 fw-semibold rounded-3 d-flex align-items-center justify-content-center gap-2 shadow-sm"
+                  (click)="openInquiryModal()"
+                >
+                  <i class="bi bi-envelope-paper-fill"></i>
+                  <span>Send Direct Inquiry</span>
+                </button>
 
-              <!-- Send Direct Inquiry (Wireframe Interest Expression requirement) -->
-              <button
-                class="btn btn-primary w-100 py-2-5 fw-semibold rounded-3 d-flex align-items-center justify-content-center gap-2 shadow-sm"
-                (click)="openInquiryModal()"
-              >
-                <i class="bi bi-envelope-paper-fill"></i>
-                <span>Send Direct Inquiry</span>
-              </button>
+                <button
+                  class="btn py-2-5 px-3 rounded-3 d-flex align-items-center justify-content-center"
+                  [class.btn-danger]="favoritesService.isFavorite(apartment.id)"
+                  [class.btn-outline-danger]="!favoritesService.isFavorite(apartment.id)"
+                  (click)="toggleFavorite()"
+                  [title]="favoritesService.isFavorite(apartment.id) ? 'Remove Favorite' : 'Save Favorite'"
+                >
+                  <i class="bi fs-5" [class.bi-heart-fill]="favoritesService.isFavorite(apartment.id)" [class.bi-heart]="!favoritesService.isFavorite(apartment.id)"></i>
+                </button>
+              </div>
             </div>
 
             <!-- Landlord Contact Card (Page 2 & 5 requirements) -->
@@ -371,7 +372,7 @@
           </div>
           <div class="modal-body p-4">
             <p class="text-muted small mb-3">
-              Inquiring about: <strong>{{ apartment.title }}</strong> (${{ apartment.rent }}/mo)
+              Inquiring about: <strong>{{ apartment.title }}</strong> (₹{{ apartment.rent | number }}/mo)
             </p>
 
             <form (ngSubmit)="submitInquiry()">
@@ -446,3 +447,4 @@
     </div>
   }
 }
+

@@ -1,136 +1,75 @@
-.featured-carousel-card {
-  min-height: 420px;
+/* Compact Featured Carousel (Request 1: Fixed size photo, smaller card size) */
+.featured-compact-card {
+  max-width: 100%;
+  border-radius: 16px;
+  background-color: #ffffff;
 }
 
-.carousel-visual {
-  min-height: 380px;
+.featured-visual-box {
+  height: 250px;
+  max-height: 250px;
+  overflow: hidden;
   background-color: #0f172a;
-}
 
-.carousel-slide-image-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 380px;
-
-  img {
-    height: 100%;
-    min-height: 380px;
+  .featured-fixed-img {
+    height: 250px;
+    max-height: 250px;
+    width: 100%;
+    object-fit: cover;
   }
 }
 
-.carousel-gradient-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 50%);
-}
-
-.carousel-arrow {
+.carousel-nav-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
-  transition: all 0.2s ease;
+  z-index: 5;
   opacity: 0.9;
+  transition: all 0.2s ease;
 
   &:hover {
     opacity: 1;
     transform: translateY(-50%) scale(1.08);
   }
 
-  &.carousel-arrow-left {
-    left: 16px;
+  &.carousel-nav-prev {
+    left: 12px;
   }
 
-  &.carousel-arrow-right {
-    right: 16px;
+  &.carousel-nav-next {
+    right: 12px;
   }
 }
 
-.carousel-indicators-bar {
+.featured-dots-bar {
   position: absolute;
-  bottom: 16px;
+  bottom: 12px;
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: 5;
 
-  .indicator-dot {
-    width: 12px;
-    height: 12px;
+  .dot-indicator {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.5);
     transition: all 0.25s ease;
     cursor: pointer;
 
     &.active {
-      width: 32px;
+      width: 24px;
       border-radius: 9999px;
       background-color: #ffffff;
     }
   }
 }
 
-.description-clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.6;
-}
-
-.amenity-pill {
-  font-size: 0.8rem;
-  padding: 0.35rem 0.75rem;
-  transition: all 0.15s ease;
-}
-
-/* Listing Card styling */
-.listing-card {
-  cursor: pointer;
-  background-color: #ffffff;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-
-  &:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.12) !important;
-
-    .card-img-top {
-      transform: scale(1.04);
-    }
-  }
-}
-
-.card-img-container {
-  height: 220px;
-  background-color: #e2e8f0;
-}
-
-.card-img-top {
-  height: 220px;
-  transition: transform 0.4s ease;
-}
-
-.bg-gradient-dark {
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.85) 100%);
-}
-
-.btn-favorite-toggle {
-  width: 40px;
-  height: 40px;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-}
-
-.description-snippet {
+.featured-desc-clamp {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -139,16 +78,105 @@
   line-height: 1.5;
 }
 
-.pagination .page-link {
-  color: #334155;
-  font-weight: 500;
-  border-radius: 8px;
-  margin: 0 3px;
-  border: 1px solid #e2e8f0;
+.btn-heart-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.08);
+  }
 }
 
-.pagination .page-item.active .page-link {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-  color: #ffffff;
+/* Search UI Polish (Request 3: Spacious, not congested) */
+.search-filter-card {
+  border-radius: 16px;
+  background-color: #ffffff;
+}
+
+.search-input-group {
+  .form-control {
+    border-color: #e2e8f0;
+    &:focus {
+      border-color: #3b82f6;
+    }
+  }
+  .input-group-text {
+    border-color: #e2e8f0;
+  }
+}
+
+.amenity-filter-btn {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.8rem;
+  transition: all 0.15s ease;
+}
+
+/* Clean Listings Card (Request 4: De-cluttered, clean & Request 5: Heart button only) */
+.clean-listing-card {
+  cursor: pointer;
+  border-radius: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.1) !important;
+
+    .listing-card-img {
+      transform: scale(1.03);
+    }
+  }
+}
+
+.listing-img-box {
+  height: 200px;
+  max-height: 200px;
+  overflow: hidden;
+  background-color: #f1f5f9;
+
+  .listing-card-img {
+    height: 200px;
+    max-height: 200px;
+    transition: transform 0.35s ease;
+  }
+}
+
+.btn-floating-heart {
+  width: 38px;
+  height: 38px;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: #ffffff;
+  }
+}
+
+.description-2line {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+/* Pagination (Request 7) */
+.pagination {
+  .page-link {
+    color: #334155;
+    font-weight: 500;
+    border-radius: 8px;
+    margin: 0 3px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: #ffffff;
+  }
 }

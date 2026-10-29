@@ -19,3 +19,4 @@ export class ToastComponent {
     this.toastService.remove(id);
   }
 }
+

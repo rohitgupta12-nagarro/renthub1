@@ -60,7 +60,7 @@
                         <img [src]="apt.photos[0]" [alt]="apt.title" class="rounded-3 object-fit-cover" style="width: 70px; height: 55px;" />
                         <div>
                           <h6 class="fw-bold text-dark mb-0">{{ apt.title }}</h6>
-                          <small class="text-muted">{{ apt.address.street }}, {{ apt.address.city }} &bull; ${{ apt.rent }}/mo</small>
+                          <small class="text-muted">{{ apt.address.street }}, {{ apt.address.city }} &bull; ₹{{ apt.rent | number }}/mo</small>
                         </div>
                       </div>
 
@@ -84,3 +84,4 @@
     </div>
   </div>
 }
+

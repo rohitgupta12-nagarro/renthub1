@@ -104,6 +104,11 @@ export class ListingDetailComponent implements OnInit, OnDestroy {
 
   toggleFavorite(): void {
     if (this.apartment) {
+      if (!this.authService.isAuthenticated()) {
+        this.toastService.warning('Please log in to add apartments to your favorites.');
+        this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
+        return;
+      }
       this.favoritesService.toggleFavorite(this.apartment.id, this.apartment.title);
     }
   }
@@ -202,3 +207,4 @@ export class ListingDetailComponent implements OnInit, OnDestroy {
     this.showInquiryModal = false;
   }
 }
+

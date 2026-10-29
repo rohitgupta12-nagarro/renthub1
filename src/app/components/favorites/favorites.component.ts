@@ -42,3 +42,4 @@ export class FavoritesComponent implements OnInit, OnDestroy {
     this.router.navigate(['/listings', id]);
   }
 }
+

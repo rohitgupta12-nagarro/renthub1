@@ -164,7 +164,7 @@ export class CreatePostComponent implements OnInit {
       bedrooms: 2,
       bathrooms: 2,
       stayType: 'Long term (6+ months)',
-      rent: 2600,
+      rent: 28000,
       isNegotiable: true,
       priceMode: 'Per Month',
       isFurnished: true,
@@ -247,3 +247,4 @@ export class CreatePostComponent implements OnInit {
     this.router.navigate(['/preview-post']);
   }
 }
+

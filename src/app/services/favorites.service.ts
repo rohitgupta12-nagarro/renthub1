@@ -26,6 +26,11 @@ export class FavoritesService {
   }
 
   private loadFavorites(): void {
+    const user = this.authService.getCurrentUser();
+    if (!user) {
+      this.favoritesSubject.next([]);
+      return;
+    }
     const key = this.getStorageKey();
     const stored = localStorage.getItem(key);
     if (stored) {
@@ -48,6 +53,11 @@ export class FavoritesService {
   }
 
   public toggleFavorite(listingId: string, listingTitle?: string): boolean {
+    if (!this.authService.isAuthenticated()) {
+      this.toastService.warning('Please log in to add apartments to your favorites.');
+      return false;
+    }
+
     const current = this.favoritesSubject.value;
     const exists = current.includes(listingId);
     let updated: string[];

@@ -40,13 +40,13 @@ export class ListingService {
         isShared: false,
         address: {
           street: '450 Marina Boulevard, Tower B',
-          city: 'San Francisco',
-          state: 'CA',
-          zipCode: '94123'
+          city: 'Mumbai',
+          state: 'Maharashtra',
+          zipCode: '400050'
         },
         squareFeet: 1250,
         stayType: 'Long term (6+ months)',
-        rent: 3200,
+        rent: 35000,
         isNegotiable: true,
         priceMode: 'Per Month',
         isFurnished: true,
@@ -60,16 +60,15 @@ export class ListingService {
           'Elevator',
           'Club House'
         ],
-        description: 'Spectacular sun-drenched 2-bedroom luxury residence perched high above Marina Boulevard. Floor-to-ceiling panoramic glass windows frame endless bay vistas. Fully upgraded Italian kitchen with quartz countertops and smart Bosch appliances. Includes in-unit washer/dryer, hardwood flooring, and master suite with spa-inspired rainfall shower.',
+        description: 'Spectacular sun-drenched 2-bedroom luxury residence with bay vistas. Upgraded kitchen with premium granite counters. Includes in-unit washer/dryer, hardwood flooring, and master suite with rainfall shower.',
         photos: [
-          'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80',
-          'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=80',
-          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80',
-          'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1000&q=80'
+          'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'
         ],
         contact: {
           landlordName: 'Sarah Jenkins',
-          phone: '+1 (555) 234-5678',
+          phone: '+91 98765 43210',
           email: 'landlord@renthub.com'
         },
         landlordId: 'u-1',
@@ -79,21 +78,21 @@ export class ListingService {
       },
       {
         id: 'apt-2',
-        title: 'Chic Downtown Loft Studio Near Financial District',
+        title: 'Chic Downtown Loft Studio Near Tech Hub',
         buildingName: 'The Heritage Brick Lofts',
         propertyType: 'Studio',
         bedrooms: 1,
         bathrooms: 1,
         isShared: false,
-        address: '742 Evergreen Terrace'.length > 0 ? {
+        address: {
           street: '128 Pine St, Suite 404',
-          city: 'Seattle',
-          state: 'WA',
-          zipCode: '98101'
-        } : { street: '', city: '', state: '', zipCode: '' },
+          city: 'Bengaluru',
+          state: 'Karnataka',
+          zipCode: '560001'
+        },
         squareFeet: 720,
         stayType: 'Both',
-        rent: 1850,
+        rent: 22000,
         isNegotiable: false,
         priceMode: 'Utilities included in rent',
         isFurnished: true,
@@ -105,15 +104,14 @@ export class ListingService {
           'Water Heater',
           'Plant Security System'
         ],
-        description: 'Exposed brick industrial design studio with exposed timber beams and tall south-facing windows. Perfect retreat for working professionals desiring walkable downtown lifestyle. High-speed gigabit Wi-Fi, modern Murphy bed to maximize space, induction cooking, and eco-friendly climate control included.',
+        description: 'Exposed brick industrial design studio with tall windows. Perfect retreat for working professionals with high-speed fiber Wi-Fi, modern Murphy bed, and eco-friendly climate control.',
         photos: [
-          'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1000&q=80',
-          'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1000&q=80',
-          'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=80'
+          'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80'
         ],
         contact: {
           landlordName: 'Marcus Vance',
-          phone: '+1 (555) 345-6789',
+          phone: '+91 91234 56789',
           email: 'marcus.v@heritage.com'
         },
         landlordId: 'u-2',
@@ -131,13 +129,13 @@ export class ListingService {
         isShared: false,
         address: {
           street: '1044 Whispering Oaks Court',
-          city: 'Austin',
-          state: 'TX',
-          zipCode: '78704'
+          city: 'Hyderabad',
+          state: 'Telangana',
+          zipCode: '500081'
         },
         squareFeet: 2150,
         stayType: 'Long term (6+ months)',
-        rent: 3600,
+        rent: 48000,
         isNegotiable: true,
         priceMode: 'Per Month',
         isFurnished: false,
@@ -153,15 +151,14 @@ export class ListingService {
           'Garbage Disposal',
           'Club House'
         ],
-        description: 'Immaculately maintained single-family residence featuring a lush private manicured back lawn, enclosed patio, and covered double carport. Generous open floor plan seamlessly connects the chef kitchen to family dining and cathedral-ceiling living room. Located inside a gated child-safe neighborhood with clubhouse and Olympic pool.',
+        description: 'Immaculately maintained single-family residence featuring a private lawn, covered parking, and open floor plan connecting the modular kitchen to family dining and cathedral-ceiling living room.',
         photos: [
-          'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1000&q=80',
-          'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=80',
-          'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80'
+          'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80'
         ],
         contact: {
           landlordName: 'Priya Sharma',
-          phone: '+1 (555) 456-7890',
+          phone: '+91 94567 89012',
           email: 'priya@renthub.com'
         },
         landlordId: 'u-3',
@@ -179,13 +176,13 @@ export class ListingService {
         isShared: true,
         address: {
           street: '88 Innovation Way, Apt 3B',
-          city: 'Boston',
-          state: 'MA',
-          zipCode: '02115'
+          city: 'Pune',
+          state: 'Maharashtra',
+          zipCode: '411057'
         },
         squareFeet: 450,
         stayType: 'Short term',
-        rent: 950,
+        rent: 11000,
         isNegotiable: true,
         priceMode: 'Utilities included in rent',
         isFurnished: true,
@@ -197,14 +194,13 @@ export class ListingService {
           'Power Backup',
           'Garbage Disposal'
         ],
-        description: 'Clean, peaceful, fully-furnished private room available in a tidy 2-bedroom shared unit. Room includes study desk, queen mattress, wardrobe, and high-speed internet. Seeking a friendly, clean flatmate (student or tech professional). Common kitchen and living room fully equipped.',
+        description: 'Clean, peaceful, fully-furnished private room in a tidy 2-bedroom shared unit with study desk, mattress, wardrobe, and high-speed Wi-Fi.',
         photos: [
-          'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1000&q=80',
-          'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1000&q=80'
+          'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80'
         ],
         contact: {
           landlordName: 'Sarah Jenkins',
-          phone: '+1 (555) 234-5678',
+          phone: '+91 98765 43210',
           email: 'landlord@renthub.com'
         },
         landlordId: 'u-1',
@@ -214,21 +210,21 @@ export class ListingService {
       },
       {
         id: 'apt-5',
-        title: 'Opulent Penthouse Suite with Private Rooftop Deck',
+        title: 'Opulent Penthouse Suite with Rooftop Deck',
         buildingName: 'The Luminary Highrises',
         propertyType: 'Penthouse',
         bedrooms: 4,
         bathrooms: 4,
         isShared: false,
         address: {
-          street: '200 Central Park West, Penthouse 28',
-          city: 'New York',
-          state: 'NY',
-          zipCode: '10024'
+          street: '200 Central Avenue, Penthouse 28',
+          city: 'Gurugram',
+          state: 'Haryana',
+          zipCode: '122002'
         },
         squareFeet: 3400,
         stayType: 'Long term (6+ months)',
-        rent: 7500,
+        rent: 85000,
         isNegotiable: false,
         priceMode: 'Per Month',
         isFurnished: true,
@@ -246,15 +242,14 @@ export class ListingService {
           'Elevator',
           'Club House'
         ],
-        description: 'A trophy penthouse occupying the entire top floor. Private direct elevator access, heated travertine flooring, double wine cellar, automated Lutron smart lighting, and an enormous 800 sq ft private wrap-around terrace boasting unobstructed 360-degree city views. 24/7 dedicated white-glove concierge service included.',
+        description: 'Trophy penthouse occupying the entire top floor. Private direct elevator access, heated flooring, smart lighting, and an enormous private terrace with unobstructed panoramic city views.',
         photos: [
-          'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1000&q=80',
-          'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=80',
-          'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=80'
+          'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80'
         ],
         contact: {
           landlordName: 'Sarah Jenkins',
-          phone: '+1 (555) 234-5678',
+          phone: '+91 98765 43210',
           email: 'landlord@renthub.com'
         },
         landlordId: 'u-1',
@@ -272,13 +267,13 @@ export class ListingService {
         isShared: false,
         address: {
           street: '512 Sunnyvale Drive',
-          city: 'Denver',
-          state: 'CO',
-          zipCode: '80203'
+          city: 'Noida',
+          state: 'Uttar Pradesh',
+          zipCode: '201301'
         },
         squareFeet: 1400,
         stayType: 'Both',
-        rent: 2200,
+        rent: 26000,
         isNegotiable: true,
         priceMode: 'Per Month',
         isFurnished: false,
@@ -290,14 +285,13 @@ export class ListingService {
           'Water Heater',
           'Garbage Disposal'
         ],
-        description: 'Picturesque independent ranch-style house situated on a peaceful tree-lined neighborhood street. Highlights include sunlit front porch, spacious detached garage, modern energy-efficient HVAC heating, and easy access to hiking trails and downtown Denver transit.',
+        description: 'Picturesque independent house on a peaceful tree-lined street. Highlights include sunlit front porch, private parking, and easy access to metro transit.',
         photos: [
-          'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1000&q=80',
-          'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1000&q=80'
+          'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80'
         ],
         contact: {
           landlordName: 'Marcus Vance',
-          phone: '+1 (555) 345-6789',
+          phone: '+91 91234 56789',
           email: 'marcus.v@heritage.com'
         },
         landlordId: 'u-2',

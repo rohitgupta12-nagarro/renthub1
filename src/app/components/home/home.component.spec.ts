@@ -55,12 +55,12 @@ describe('HomeComponent', () => {
   });
 
   it('should filter listings by search term', () => {
-    component.searchTerm = 'Seattle';
+    component.searchTerm = 'Bengaluru';
     component.applyFilters();
     expect(component.filteredListings.every(l =>
-      l.address.city.toLowerCase().includes('seattle') ||
-      l.title.toLowerCase().includes('seattle') ||
-      l.description.toLowerCase().includes('seattle')
+      l.address.city.toLowerCase().includes('bengaluru') ||
+      l.title.toLowerCase().includes('bengaluru') ||
+      l.description.toLowerCase().includes('bengaluru')
     )).toBe(true);
   });
 
@@ -71,7 +71,7 @@ describe('HomeComponent', () => {
   });
 
   it('should reset all filters correctly', () => {
-    component.searchTerm = 'Seattle';
+    component.searchTerm = 'Bengaluru';
     component.selectedPropertyType = 'Studio';
     component.minPrice = 1000;
     component.resetFilters();
@@ -82,3 +82,4 @@ describe('HomeComponent', () => {
     expect(component.filteredListings.length).toBe(component.allListings.length);
   });
 });
+

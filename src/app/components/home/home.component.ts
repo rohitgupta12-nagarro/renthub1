@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
 import { ListingService } from '../../services/listing.service';
 import { FavoritesService } from '../../services/favorites.service';
+import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 import { Apartment, PropertyType, StayType, AVAILABLE_AMENITIES } from '../../models/apartment.model';
 
 @Component({
@@ -27,13 +29,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   minPrice: number | null = null;
   maxPrice: number | null = null;
   selectedAmenities: string[] = [];
-  sortBy = 'newest'; // 'newest' | 'price-asc' | 'price-desc' | 'sqft-desc'
+  sortBy = 'newest';
+
+  // Toggle for additional filter options to keep UI clean and uncongested
+  showMoreFilters = false;
 
   availableAmenities = AVAILABLE_AMENITIES;
 
-  // Pagination
+  // Pagination (Fixed 6 items per page for clean 3-col grid; per page dropdown removed)
   currentPage = 1;
-  itemsPerPage = 6;
+  readonly itemsPerPage = 6;
   totalPages = 1;
 
   private subs = new Subscription();
@@ -41,6 +46,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private listingService: ListingService,
     public favoritesService: FavoritesService,
+    public authService: AuthService,
+    private toastService: ToastService,
     private router: Router
   ) {}
 
@@ -203,6 +210,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.selectedAmenities = [];
     this.sortBy = 'newest';
     this.currentPage = 1;
+    this.showMoreFilters = false;
     this.applyFilters();
   }
 
@@ -228,7 +236,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   setPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      window.scrollTo({ top: 500, behavior: 'smooth' });
+      window.scrollTo({ top: 400, behavior: 'smooth' });
     }
   }
 
@@ -236,9 +244,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  // Favorites Quick Action
+  // Favorites Action: Only allowed if user is logged in
   toggleFavorite(event: Event, apartment: Apartment): void {
     event.stopPropagation();
+    if (!this.authService.isAuthenticated()) {
+      this.toastService.warning('Please log in to add apartments to your favorites.');
+      this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
+      return;
+    }
     this.favoritesService.toggleFavorite(apartment.id, apartment.title);
   }
 

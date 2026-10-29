@@ -60,7 +60,7 @@
                 <div class="preview-field-box p-3 rounded-3 border bg-light h-100">
                   <span class="text-muted small fw-bold text-uppercase d-block mb-1">Rent</span>
                   <div class="d-flex align-items-baseline gap-1">
-                    <span class="fs-4 fw-bolder text-primary">${{ draftPost.rent | number }}</span>
+                    <span class="fs-4 fw-bolder text-primary">₹{{ draftPost.rent | number }}</span>
                     <span class="text-muted small">/ {{ draftPost.priceMode === 'Per Month' ? 'month' : 'month (utilities included)' }}</span>
                     @if (draftPost.isNegotiable) {
                       <span class="badge bg-success small ms-2">Negotiable</span>
@@ -173,3 +173,4 @@
     </div>
   </div>
 }
+

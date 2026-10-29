@@ -56,3 +56,4 @@ export const AVAILABLE_AMENITIES: string[] = [
   'Elevator',
   'Club House'
 ];
+

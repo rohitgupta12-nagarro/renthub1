@@ -10,3 +10,4 @@ export interface CommentItem {
   parentId?: string | null;
   replies?: CommentItem[];
 }
+

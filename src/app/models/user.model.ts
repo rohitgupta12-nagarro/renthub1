@@ -14,3 +14,4 @@ export interface AuthSession {
   user: User;
   token: string;
 }
+
