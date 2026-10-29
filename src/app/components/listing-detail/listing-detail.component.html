@@ -300,7 +300,7 @@
               <!-- Action: Send Direct Inquiry & Favorite Heart -->
               <div class="d-flex gap-2 mb-2">
                 <button
-                  class="btn btn-primary flex-grow-1 py-2-5 fw-semibold rounded-3 d-flex align-items-center justify-content-center gap-2 shadow-sm"
+                  class="btn btn-primary flex-grow-1 py-2 fw-semibold rounded-3 d-flex align-items-center justify-content-center gap-2 shadow-sm"
                   (click)="openInquiryModal()"
                 >
                   <i class="bi bi-envelope-paper-fill"></i>
@@ -308,7 +308,7 @@
                 </button>
 
                 <button
-                  class="btn py-2-5 px-3 rounded-3 d-flex align-items-center justify-content-center"
+                  class="btn py-2 px-3 rounded-3 d-flex align-items-center justify-content-center"
                   [class.btn-danger]="favoritesService.isFavorite(apartment.id)"
                   [class.btn-outline-danger]="!favoritesService.isFavorite(apartment.id)"
                   (click)="toggleFavorite()"

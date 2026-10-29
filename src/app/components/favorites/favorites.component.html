@@ -31,10 +31,11 @@
               <div class="position-relative" style="height: 200px;">
                 <img [src]="apartment.photos[0]" [alt]="apartment.title" class="w-100 h-100 object-fit-cover" />
                 <button
-                  class="btn btn-danger btn-sm rounded-circle position-absolute top-0 end-0 m-3 shadow"
-                  style="width: 36px; height: 36px;"
-                  (click)="removeFavorite(apartment)"
+                  type="button"
+                  class="btn btn-floating-heart text-danger position-absolute top-0 end-0 m-3 shadow-sm d-flex align-items-center justify-content-center"
+                  (click)="removeFavorite(apartment); $event.stopPropagation()"
                   title="Remove from favorites"
+                  aria-label="Remove from favorites"
                 >
                   <i class="bi bi-heart-fill"></i>
                 </button>
@@ -48,25 +49,38 @@
                   {{ apartment.propertyType }}
                 </span>
                 <h5 class="fw-bold text-dark text-truncate mb-1">{{ apartment.title }}</h5>
-                <p class="text-muted small mb-3">
+                <p class="text-muted small mb-2">
                   <i class="bi bi-geo-alt text-danger me-1"></i>
                   {{ apartment.address.street }}, {{ apartment.address.city }}
                 </p>
 
-                <div class="d-flex align-items-center gap-3 text-secondary small py-2 mb-3 border-top border-bottom">
-                  <span>{{ apartment.bedrooms }} Bed</span>
-                  <span>&bull;</span>
-                  <span>{{ apartment.squareFeet }} sqft</span>
-                  <span>&bull;</span>
-                  <span>{{ apartment.stayType }}</span>
+                <!-- Key Property Specifications (Bedrooms, Bathrooms, Total Space) -->
+                <div class="property-specs-strip py-2 my-2 border-top border-bottom flex-grow-1 d-flex align-items-center justify-content-between text-secondary small">
+                  <span class="d-flex align-items-center gap-1">
+                    <i class="bi bi-door-closed text-primary"></i>
+                    <span class="fw-semibold text-dark">{{ apartment.bedrooms }} Bed{{ apartment.bedrooms > 1 ? 's' : '' }}</span>
+                  </span>
+                  <span class="text-muted opacity-50">&bull;</span>
+                  <span class="d-flex align-items-center gap-1">
+                    <i class="bi bi-droplet text-primary"></i>
+                    <span class="fw-semibold text-dark">{{ apartment.bathrooms }} Bath{{ apartment.bathrooms > 1 ? 's' : '' }}</span>
+                  </span>
+                  <span class="text-muted opacity-50">&bull;</span>
+                  <span class="d-flex align-items-center gap-1">
+                    <i class="bi bi-aspect-ratio text-primary"></i>
+                    <span class="fw-semibold text-dark">{{ apartment.squareFeet | number }} sqft</span>
+                  </span>
                 </div>
 
-                <div class="mt-auto d-flex gap-2">
-                  <button class="btn btn-primary flex-grow-1 fw-semibold rounded-3 py-2" (click)="viewDetails(apartment.id)">
-                    View Details
-                  </button>
-                  <button class="btn btn-outline-danger rounded-3 px-3 py-2" (click)="removeFavorite(apartment)" title="Remove">
-                    <i class="bi bi-trash"></i>
+                <!-- Bottom Action: View Details Full Width (Delete button removed per request) -->
+                <div class="mt-auto pt-2 border-top">
+                  <button
+                    type="button"
+                    class="btn btn-primary w-100 fw-semibold py-2 rounded-3 d-flex align-items-center justify-content-center gap-2"
+                    (click)="viewDetails(apartment.id)"
+                  >
+                    <span>View Details</span>
+                    <i class="bi bi-chevron-right small"></i>
                   </button>
                 </div>
               </div>
