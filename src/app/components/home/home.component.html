@@ -380,10 +380,23 @@
                 {{ apartment.address.street }}, {{ apartment.address.city }}
               </p>
 
-              <!-- Description Snippet (Wireframe Page 3) -->
-              <p class="text-secondary small description-2line mb-3 flex-grow-1">
-                {{ apartment.description }}
-              </p>
+              <!-- Key Property Specifications (Bedrooms, Bathrooms, Total Space) -->
+              <div class="property-specs-strip py-2 my-2 border-top border-bottom flex-grow-1 d-flex align-items-center justify-content-between text-secondary small">
+                <span class="d-flex align-items-center gap-1">
+                  <i class="bi bi-door-closed text-primary"></i>
+                  <span class="fw-semibold text-dark">{{ apartment.bedrooms }} Bed{{ apartment.bedrooms > 1 ? 's' : '' }}</span>
+                </span>
+                <span class="text-muted opacity-50">&bull;</span>
+                <span class="d-flex align-items-center gap-1">
+                  <i class="bi bi-droplet text-primary"></i>
+                  <span class="fw-semibold text-dark">{{ apartment.bathrooms }} Bath{{ apartment.bathrooms > 1 ? 's' : '' }}</span>
+                </span>
+                <span class="text-muted opacity-50">&bull;</span>
+                <span class="d-flex align-items-center gap-1">
+                  <i class="bi bi-aspect-ratio text-primary"></i>
+                  <span class="fw-semibold text-dark">{{ apartment.squareFeet | number }} sqft</span>
+                </span>
+              </div>
 
               <!-- Bottom Action: View Details Button (No duplicate text favorite button) -->
               <div class="mt-auto pt-2 border-top">

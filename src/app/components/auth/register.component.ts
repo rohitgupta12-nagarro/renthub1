@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
-import { UserRole } from '../../models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -23,11 +22,10 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Wireframe Page 4: Name, Email, Password
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.pattern(/^[0-9+() -]{7,16}$/)]],
-      role: ['renter' as UserRole, [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
     }, {
@@ -47,13 +45,11 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const { name, email, password, role, phone } = this.registerForm.value;
+    const { name, email, password } = this.registerForm.value;
     const result = this.authService.register({
       name,
       email,
-      password,
-      role,
-      phone
+      password
     });
 
     if (result.success) {
@@ -64,4 +60,3 @@ export class RegisterComponent implements OnInit {
     }
   }
 }
-
