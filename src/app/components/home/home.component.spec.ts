@@ -81,5 +81,15 @@ describe('HomeComponent', () => {
     expect(component.minPrice).toBeNull();
     expect(component.filteredListings.length).toBe(component.allListings.length);
   });
+
+  it('should handle pagination and page changes', () => {
+    expect(component.currentPage).toBe(1);
+    if (component.totalPages > 1) {
+      component.setPage(2);
+      expect(component.currentPage).toBe(2);
+      component.setPage(1);
+      expect(component.currentPage).toBe(1);
+    }
+  });
 });
 

@@ -322,3 +322,14 @@ body {
   border-color: var(--rh-border);
   box-shadow: var(--rh-card-shadow);
 }
+
+/* Pagination Global Fix */
+.pagination {
+  margin-bottom: 0;
+
+  .page-link:focus,
+  .page-link:focus-visible {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}

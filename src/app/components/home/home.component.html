@@ -429,28 +429,46 @@
       }
     </div>
 
-    <!-- Pagination Controls (Clean & Centered, Per Page Dropdown Removed per Request 7) -->
+    <!-- Pagination Controls (Clean & Centered Modern Pill Strip) -->
     @if (totalPages > 1) {
       <nav aria-label="Listings Navigation" class="d-flex justify-content-center my-4">
-        <ul class="pagination shadow-sm">
-          <li class="page-item" [class.disabled]="currentPage === 1">
-            <button type="button" class="page-link" (click)="setPage(currentPage - 1)" aria-label="Previous">
-              <i class="bi bi-chevron-left me-1"></i> Prev
-            </button>
-          </li>
+        <div class="pagination-container bg-white border rounded-pill shadow-sm p-1 d-inline-flex align-items-center gap-1">
+          <button
+            type="button"
+            class="pagination-btn pagination-nav-btn"
+            [disabled]="currentPage === 1"
+            (click)="setPage(currentPage - 1)"
+            aria-label="Previous Page"
+          >
+            <i class="bi bi-chevron-left me-1"></i>
+            <span>Prev</span>
+          </button>
           
-          @for (p of pageNumbers; track p) {
-            <li class="page-item" [class.active]="p === currentPage">
-              <button type="button" class="page-link" (click)="setPage(p)">{{ p }}</button>
-            </li>
-          }
+          <div class="d-flex align-items-center gap-1 px-1">
+            @for (p of pageNumbers; track p) {
+              <button
+                type="button"
+                class="pagination-btn pagination-num-btn"
+                [class.active]="p === currentPage"
+                (click)="setPage(p)"
+                [attr.aria-current]="p === currentPage ? 'page' : null"
+              >
+                {{ p }}
+              </button>
+            }
+          </div>
 
-          <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <button type="button" class="page-link" (click)="setPage(currentPage + 1)" aria-label="Next">
-              Next <i class="bi bi-chevron-right ms-1"></i>
-            </button>
-          </li>
-        </ul>
+          <button
+            type="button"
+            class="pagination-btn pagination-nav-btn"
+            [disabled]="currentPage === totalPages"
+            (click)="setPage(currentPage + 1)"
+            aria-label="Next Page"
+          >
+            <span>Next</span>
+            <i class="bi bi-chevron-right ms-1"></i>
+          </button>
+        </div>
       </nav>
     }
 
