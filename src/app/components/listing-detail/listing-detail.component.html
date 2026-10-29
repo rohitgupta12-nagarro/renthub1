@@ -2,28 +2,16 @@
   <div class="listing-detail-page py-4">
     <div class="container">
 
-      <!-- Breadcrumbs & Navigation (Requirement 1: Edit button for owner) -->
+      <!-- Breadcrumbs & Navigation -->
       <nav aria-label="breadcrumb" class="mb-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>
           <li class="breadcrumb-item active text-truncate" style="max-width: 320px;">{{ apartment.title }}</li>
         </ol>
 
-        <div class="d-flex align-items-center gap-2">
-          @if (isOwner) {
-            <a
-              [routerLink]="['/create-post']"
-              [queryParams]="{ edit: apartment.id }"
-              class="btn btn-primary btn-sm rounded-pill d-inline-flex align-items-center gap-1 shadow-sm fw-semibold px-3"
-            >
-              <i class="bi bi-pencil-square"></i>
-              <span>Edit Listing</span>
-            </a>
-          }
-          <a routerLink="/" class="btn btn-outline-secondary btn-sm rounded-pill d-inline-flex align-items-center gap-1">
-            <i class="bi bi-arrow-left"></i> Back to Listings
-          </a>
-        </div>
+        <a routerLink="/" class="btn btn-outline-secondary btn-sm rounded-pill d-inline-flex align-items-center gap-1">
+          <i class="bi bi-arrow-left"></i> Back to Listings
+        </a>
       </nav>
 
       <!-- Main Layout: Gallery & Details -->
@@ -291,27 +279,8 @@
 
         <!-- Right Sidebar: Price & Landlord Contact Box -->
         <div class="col-lg-4">
-          <div class="sticky-top" style="top: 80px;">
+          <div class="sticky-top" style="top: 80px; z-index: 10;">
             
-            @if (isOwner) {
-              <!-- Owner Controls (Requirement 1) -->
-              <div class="card border border-primary-subtle bg-primary-subtle rounded-4 p-3 mb-3 shadow-sm">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <span class="badge bg-primary text-white mb-1"><i class="bi bi-person-badge me-1"></i>Your Listing</span>
-                    <h6 class="fw-bold text-dark mb-0">Own Property Post</h6>
-                  </div>
-                  <a
-                    [routerLink]="['/create-post']"
-                    [queryParams]="{ edit: apartment.id }"
-                    class="btn btn-primary btn-sm rounded-pill px-3 fw-semibold shadow-sm d-inline-flex align-items-center gap-1"
-                  >
-                    <i class="bi bi-pencil-square"></i> Edit Listing
-                  </a>
-                </div>
-              </div>
-            }
-
             <!-- Price Summary Card -->
             <div class="card border rounded-4 p-4 bg-white shadow-sm mb-4">
               <span class="text-muted small text-uppercase fw-bold tracking-wider">Expected Rent</span>
@@ -328,26 +297,48 @@
                 </div>
               }
 
-              <!-- Action: Send Direct Inquiry & Favorite Heart -->
-              <div class="d-flex gap-2 mb-2">
-                <button
-                  class="btn btn-primary flex-grow-1 py-2 fw-semibold rounded-3 d-flex align-items-center justify-content-center gap-2 shadow-sm"
-                  (click)="openInquiryModal()"
-                >
-                  <i class="bi bi-envelope-paper-fill"></i>
-                  <span>Send Direct Inquiry</span>
-                </button>
+              <!-- Actions (If owner: Edit & Delete buttons; If renter/guest: Send Inquiry & Favorite) -->
+              @if (isOwner) {
+                <div class="d-flex gap-2 mb-2">
+                  <a
+                    [routerLink]="['/create-post']"
+                    [queryParams]="{ edit: apartment.id }"
+                    class="btn btn-outline-primary flex-grow-1 py-2 fw-semibold rounded-3 d-flex align-items-center justify-content-center gap-2 shadow-sm"
+                  >
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Edit Listing</span>
+                  </a>
+                  <button
+                    type="button"
+                    class="btn btn-danger py-2 px-3 fw-semibold rounded-3 d-flex align-items-center justify-content-center gap-2 shadow-sm"
+                    (click)="deleteListing()"
+                    title="Delete this listing"
+                  >
+                    <i class="bi bi-trash-fill"></i>
+                    <span>Delete</span>
+                  </button>
+                </div>
+              } @else {
+                <div class="d-flex gap-2 mb-2">
+                  <button
+                    class="btn btn-primary flex-grow-1 py-2 fw-semibold rounded-3 d-flex align-items-center justify-content-center gap-2 shadow-sm"
+                    (click)="openInquiryModal()"
+                  >
+                    <i class="bi bi-envelope-paper-fill"></i>
+                    <span>Send Direct Inquiry</span>
+                  </button>
 
-                <button
-                  class="btn py-2 px-3 rounded-3 d-flex align-items-center justify-content-center"
-                  [class.btn-danger]="favoritesService.isFavorite(apartment.id)"
-                  [class.btn-outline-danger]="!favoritesService.isFavorite(apartment.id)"
-                  (click)="toggleFavorite()"
-                  [title]="favoritesService.isFavorite(apartment.id) ? 'Remove Favorite' : 'Save Favorite'"
-                >
-                  <i class="bi fs-5" [class.bi-heart-fill]="favoritesService.isFavorite(apartment.id)" [class.bi-heart]="!favoritesService.isFavorite(apartment.id)"></i>
-                </button>
-              </div>
+                  <button
+                    class="btn py-2 px-3 rounded-3 d-flex align-items-center justify-content-center"
+                    [class.btn-danger]="favoritesService.isFavorite(apartment.id)"
+                    [class.btn-outline-danger]="!favoritesService.isFavorite(apartment.id)"
+                    (click)="toggleFavorite()"
+                    [title]="favoritesService.isFavorite(apartment.id) ? 'Remove Favorite' : 'Save Favorite'"
+                  >
+                    <i class="bi fs-5" [class.bi-heart-fill]="favoritesService.isFavorite(apartment.id)" [class.bi-heart]="!favoritesService.isFavorite(apartment.id)"></i>
+                  </button>
+                </div>
+              }
             </div>
 
             <!-- Landlord Contact Card (Page 2 & 5 requirements) -->

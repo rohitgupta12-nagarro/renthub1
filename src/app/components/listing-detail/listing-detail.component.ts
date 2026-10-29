@@ -86,6 +86,16 @@ export class ListingDetailComponent implements OnInit, OnDestroy {
            this.currentUser.email === this.apartment.contact.email;
   }
 
+  deleteListing(): void {
+    if (!this.apartment) return;
+    const confirmed = confirm(`Are you sure you want to delete "${this.apartment.title}"? This action cannot be undone.`);
+    if (confirmed) {
+      this.listingService.deleteListing(this.apartment.id);
+      this.toastService.success('Listing deleted successfully.');
+      this.router.navigate(['/profile']);
+    }
+  }
+
   loadListing(id: string): void {
     const found = this.listingService.getListingById(id);
     if (!found) {

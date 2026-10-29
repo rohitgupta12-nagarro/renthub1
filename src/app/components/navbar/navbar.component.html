@@ -66,50 +66,57 @@
           <!-- Authenticated User Profile Menu -->
           <div class="dropdown">
             <button
-              class="btn btn-outline-secondary d-flex align-items-center gap-2 rounded-pill px-3 py-1 text-white border-secondary dropdown-toggle"
+              class="btn btn-nav-user d-flex align-items-center gap-2 rounded-pill dropdown-toggle"
               type="button"
               id="userMenuButton"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               @if (currentUser.avatarUrl) {
-                <img [src]="currentUser.avatarUrl" [alt]="currentUser.name" class="rounded-circle user-avatar" />
+                <img [src]="currentUser.avatarUrl" [alt]="currentUser.name" class="rounded-circle user-avatar border border-white-50 shadow-sm" />
               } @else {
-                <i class="bi bi-person-circle fs-5"></i>
+                <div class="user-avatar-placeholder rounded-circle d-flex align-items-center justify-content-center">
+                  {{ currentUser.name.charAt(0) }}
+                </div>
               }
               <div class="text-start d-none d-sm-block">
                 <span class="fw-semibold small d-block leading-tight text-white">{{ currentUser.name }}</span>
               </div>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 p-2" aria-labelledby="userMenuButton">
-              <li class="px-3 py-2 border-bottom mb-1">
-                <span class="d-block fw-bold text-dark">{{ currentUser.name }}</span>
-                <small class="text-muted">{{ currentUser.email }}</small>
+            <ul class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="userMenuButton">
+              <li class="dropdown-user-header">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <span class="d-block fw-bold text-dark text-truncate" style="max-width: 190px;">{{ currentUser.name }}</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle ms-auto" style="font-size: 10px;">{{ currentUser.role | titlecase }}</span>
+                </div>
+                <small class="text-muted d-block text-truncate" style="max-width: 210px;">{{ currentUser.email }}</small>
               </li>
-              <li>
-                <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2" routerLink="/profile">
-                  <i class="bi bi-person text-primary"></i> Profile
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2" routerLink="/favorites">
-                  <i class="bi bi-heart text-danger"></i> Saved Favorites
-                  @if (favoriteCount > 0) {
-                    <span class="badge bg-danger ms-auto">{{ favoriteCount }}</span>
-                  }
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2" routerLink="/inquiries">
-                  <i class="bi bi-envelope text-info"></i> Direct Inquiries
-                </a>
-              </li>
-              <li><hr class="dropdown-divider my-1"></li>
-              <li>
-                <button (click)="logout()" class="dropdown-item rounded py-2 text-danger d-flex align-items-center gap-2">
-                  <i class="bi bi-box-arrow-right"></i> Logout
-                </button>
-              </li>
+              <div class="p-2">
+                <li>
+                  <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2" routerLink="/profile">
+                    <i class="bi bi-person text-primary"></i> Profile
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2" routerLink="/favorites">
+                    <i class="bi bi-heart text-danger"></i> Saved Favorites
+                    @if (favoriteCount > 0) {
+                      <span class="badge bg-danger ms-auto">{{ favoriteCount }}</span>
+                    }
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2" routerLink="/inquiries">
+                    <i class="bi bi-envelope text-info"></i> Direct Inquiries
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider my-1"></li>
+                <li>
+                  <button (click)="logout()" class="dropdown-item rounded py-2 text-danger d-flex align-items-center gap-2">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                  </button>
+                </li>
+              </div>
             </ul>
           </div>
         }

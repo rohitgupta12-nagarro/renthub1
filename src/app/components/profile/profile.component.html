@@ -3,30 +3,37 @@
     <div class="container">
       
       <div class="row g-4">
-        <!-- User Info Card -->
+        <!-- User Info Card (Requirement 1: Account ID removed, polished UI) -->
         <div class="col-lg-4">
           <div class="card border rounded-4 bg-white shadow-sm p-4 text-center">
-            <img [src]="user.avatarUrl" [alt]="user.name" class="rounded-circle mx-auto mb-3 border p-1" style="width: 90px; height: 90px; object-fit: cover;" />
-            <h4 class="fw-bold mb-1">{{ user.name }}</h4>
-            <p class="text-muted small mb-4">{{ user.email }}</p>
+            @if (user.avatarUrl) {
+              <img [src]="user.avatarUrl" [alt]="user.name" class="rounded-circle mx-auto mb-3 border shadow-sm p-1 profile-avatar-circle" style="width: 96px; height: 96px; object-fit: cover;" />
+            } @else {
+              <div class="rounded-circle bg-primary-subtle text-primary mx-auto mb-3 d-flex align-items-center justify-content-center fw-bold fs-2 shadow-sm profile-avatar-circle" style="width: 96px; height: 96px;">
+                {{ user.name.charAt(0) }}
+              </div>
+            }
+            <h4 class="fw-bold mb-1 text-dark">{{ user.name }}</h4>
+            <p class="text-muted small mb-3">{{ user.email }}</p>
 
             <div class="border-top pt-3 text-start small">
-              <div class="d-flex justify-content-between py-2 border-bottom">
-                <span class="text-muted">Account ID:</span>
-                <span class="fw-semibold">{{ user.id }}</span>
+              <div class="d-flex justify-content-between py-2 border-bottom align-items-center">
+                <span class="text-muted d-flex align-items-center gap-2"><i class="bi bi-envelope text-primary"></i>Email:</span>
+                <span class="fw-semibold text-truncate" style="max-width: 170px;">{{ user.email }}</span>
               </div>
-              <div class="d-flex justify-content-between py-2 border-bottom">
-                <span class="text-muted">Phone:</span>
+              <div class="d-flex justify-content-between py-2 border-bottom align-items-center">
+                <span class="text-muted d-flex align-items-center gap-2"><i class="bi bi-telephone text-primary"></i>Phone:</span>
                 <span class="fw-semibold">{{ user.phone || 'Not set' }}</span>
               </div>
-              <div class="d-flex justify-content-between py-2">
-                <span class="text-muted">Saved Favorites:</span>
-                <span class="badge bg-danger rounded-pill">{{ favoriteCount }}</span>
+              <div class="d-flex justify-content-between py-2 align-items-center">
+                <span class="text-muted d-flex align-items-center gap-2"><i class="bi bi-heart-fill text-danger"></i>Saved Favorites:</span>
+                <span class="badge bg-danger rounded-pill px-2.5 py-1">{{ favoriteCount }}</span>
               </div>
             </div>
 
-            <a routerLink="/create-post" class="btn btn-primary w-100 rounded-3 mt-4 fw-semibold py-2">
-              <i class="bi bi-plus-circle me-1"></i> Post New Apartment
+            <a routerLink="/create-post" class="btn btn-primary w-100 rounded-pill mt-4 fw-semibold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2">
+              <i class="bi bi-plus-circle-fill"></i>
+              <span>Post New Apartment</span>
             </a>
           </div>
         </div>
@@ -43,34 +50,41 @@
             </div>
 
             @if (myListings.length === 0) {
-              <div class="text-center py-5 bg-light rounded-3 text-muted">
-                <i class="bi bi-house-door fs-2 d-block mb-2"></i>
-                <p class="mb-2">You haven't posted any apartments yet.</p>
-                <a routerLink="/create-post" class="btn btn-sm btn-outline-primary rounded-pill">
-                  Create Your First Listing
+              <div class="text-center py-5 bg-light rounded-4 text-muted border border-dashed">
+                <i class="bi bi-house-door fs-1 d-block mb-2 text-secondary opacity-50"></i>
+                <p class="mb-2 fw-medium text-dark">You haven't posted any apartments yet.</p>
+                <small class="text-muted d-block mb-3">Post your property listing to reach verified prospective renters.</small>
+                <a routerLink="/create-post" class="btn btn-sm btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
+                  <i class="bi bi-plus-circle me-1"></i> Create Your First Listing
                 </a>
               </div>
             } @else {
               <div class="row g-3">
                 @for (apt of myListings; track apt.id) {
                   <div class="col-12">
-                    <div class="p-3 border rounded-3 bg-light d-flex flex-wrap align-items-center justify-content-between gap-3">
+                    <div class="p-3 border rounded-3 bg-white shadow-sm d-flex flex-wrap align-items-center justify-content-between gap-3 listing-item-card">
                       <div class="d-flex align-items-center gap-3">
-                        <img [src]="apt.photos[0]" [alt]="apt.title" class="rounded-3 object-fit-cover" style="width: 70px; height: 55px;" />
+                        <img [src]="apt.photos[0]" [alt]="apt.title" class="rounded-3 object-fit-cover shadow-sm" style="width: 80px; height: 60px;" />
                         <div>
-                          <h6 class="fw-bold text-dark mb-0">{{ apt.title }}</h6>
-                          <small class="text-muted">{{ apt.address.street }}, {{ apt.address.city }} &bull; ₹{{ apt.rent | number }}/mo</small>
+                          <div class="d-flex align-items-center gap-2 mb-1">
+                            <h6 class="fw-bold text-dark mb-0 text-truncate" style="max-width: 280px;">{{ apt.title }}</h6>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 11px;">{{ apt.propertyType }}</span>
+                          </div>
+                          <small class="text-muted d-block">
+                            <i class="bi bi-geo-alt text-danger me-1"></i>{{ apt.address.street }}, {{ apt.address.city }}
+                            &bull; <span class="fw-semibold text-primary">₹{{ apt.rent | number }}/mo</span>
+                          </small>
                         </div>
                       </div>
 
                       <div class="d-flex align-items-center gap-2">
-                        <a [routerLink]="['/create-post']" [queryParams]="{ edit: apt.id }" class="btn btn-sm btn-outline-primary rounded-pill d-inline-flex align-items-center gap-1 fw-medium" title="Edit listing">
+                        <a [routerLink]="['/create-post']" [queryParams]="{ edit: apt.id }" class="btn btn-sm btn-outline-primary rounded-pill d-inline-flex align-items-center gap-1 fw-medium px-3" title="Edit listing">
                           <i class="bi bi-pencil-square"></i> Edit
                         </a>
-                        <a [routerLink]="['/listings', apt.id]" class="btn btn-sm btn-outline-secondary rounded-pill">
-                          View
+                        <a [routerLink]="['/listings', apt.id]" class="btn btn-sm btn-outline-secondary rounded-pill d-inline-flex align-items-center gap-1 px-3">
+                          <i class="bi bi-eye"></i> View
                         </a>
-                        <button class="btn btn-sm btn-outline-danger rounded-pill" (click)="deleteListing(apt.id)" title="Delete listing">
+                        <button class="btn btn-sm btn-outline-danger rounded-pill px-2.5" (click)="deleteListing(apt.id)" title="Delete listing">
                           <i class="bi bi-trash"></i>
                         </button>
                       </div>
