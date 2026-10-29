@@ -63,11 +63,14 @@
                         </div>
                       </div>
 
-                      <div class="d-flex gap-2">
-                        <a [routerLink]="['/listings', apt.id]" class="btn btn-sm btn-outline-primary rounded-pill">
+                      <div class="d-flex align-items-center gap-2">
+                        <a [routerLink]="['/create-post']" [queryParams]="{ edit: apt.id }" class="btn btn-sm btn-outline-primary rounded-pill d-inline-flex align-items-center gap-1 fw-medium" title="Edit listing">
+                          <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                        <a [routerLink]="['/listings', apt.id]" class="btn btn-sm btn-outline-secondary rounded-pill">
                           View
                         </a>
-                        <button class="btn btn-sm btn-outline-danger rounded-pill" (click)="deleteListing(apt.id)">
+                        <button class="btn btn-sm btn-outline-danger rounded-pill" (click)="deleteListing(apt.id)" title="Delete listing">
                           <i class="bi bi-trash"></i>
                         </button>
                       </div>

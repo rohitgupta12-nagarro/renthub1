@@ -79,5 +79,29 @@ describe('CreatePostComponent', () => {
     expect(savedDraft).toBeDefined();
     expect(savedDraft?.buildingName).toContain('Silver Oaks');
   });
+
+  it('should only allow numbers for zip code', () => {
+    component.postForm.get('zipCode')?.setValue('12345');
+    expect(component.postForm.get('zipCode')?.valid).toBe(true);
+
+    component.postForm.get('zipCode')?.setValue('ABCDE');
+    expect(component.postForm.get('zipCode')?.valid).toBe(false);
+
+    component.postForm.get('zipCode')?.setValue('12-34');
+    expect(component.postForm.get('zipCode')?.valid).toBe(false);
+  });
+
+  it('should allow adding custom photo URLs and remove them', () => {
+    component.selectedPhotos = [];
+    component.customPhotoUrl = 'https://example.com/apartment1.jpg';
+    component.addCustomPhoto();
+
+    expect(component.selectedPhotos.length).toBe(1);
+    expect(component.selectedPhotos[0]).toBe('https://example.com/apartment1.jpg');
+    expect(component.customPhotoUrl).toBe('');
+
+    component.removePhoto(0);
+    expect(component.selectedPhotos.length).toBe(0);
+  });
 });
 

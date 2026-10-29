@@ -2,16 +2,28 @@
   <div class="listing-detail-page py-4">
     <div class="container">
 
-      <!-- Breadcrumbs & Navigation -->
-      <nav aria-label="breadcrumb" class="mb-3 d-flex align-items-center justify-content-between">
+      <!-- Breadcrumbs & Navigation (Requirement 1: Edit button for owner) -->
+      <nav aria-label="breadcrumb" class="mb-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>
           <li class="breadcrumb-item active text-truncate" style="max-width: 320px;">{{ apartment.title }}</li>
         </ol>
 
-        <a routerLink="/" class="btn btn-outline-secondary btn-sm rounded-pill d-inline-flex align-items-center gap-1">
-          <i class="bi bi-arrow-left"></i> Back to Listings
-        </a>
+        <div class="d-flex align-items-center gap-2">
+          @if (isOwner) {
+            <a
+              [routerLink]="['/create-post']"
+              [queryParams]="{ edit: apartment.id }"
+              class="btn btn-primary btn-sm rounded-pill d-inline-flex align-items-center gap-1 shadow-sm fw-semibold px-3"
+            >
+              <i class="bi bi-pencil-square"></i>
+              <span>Edit Listing</span>
+            </a>
+          }
+          <a routerLink="/" class="btn btn-outline-secondary btn-sm rounded-pill d-inline-flex align-items-center gap-1">
+            <i class="bi bi-arrow-left"></i> Back to Listings
+          </a>
+        </div>
       </nav>
 
       <!-- Main Layout: Gallery & Details -->
@@ -281,6 +293,25 @@
         <div class="col-lg-4">
           <div class="sticky-top" style="top: 80px;">
             
+            @if (isOwner) {
+              <!-- Owner Controls (Requirement 1) -->
+              <div class="card border border-primary-subtle bg-primary-subtle rounded-4 p-3 mb-3 shadow-sm">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <span class="badge bg-primary text-white mb-1"><i class="bi bi-person-badge me-1"></i>Your Listing</span>
+                    <h6 class="fw-bold text-dark mb-0">Own Property Post</h6>
+                  </div>
+                  <a
+                    [routerLink]="['/create-post']"
+                    [queryParams]="{ edit: apartment.id }"
+                    class="btn btn-primary btn-sm rounded-pill px-3 fw-semibold shadow-sm d-inline-flex align-items-center gap-1"
+                  >
+                    <i class="bi bi-pencil-square"></i> Edit Listing
+                  </a>
+                </div>
+              </div>
+            }
+
             <!-- Price Summary Card -->
             <div class="card border rounded-4 p-4 bg-white shadow-sm mb-4">
               <span class="text-muted small text-uppercase fw-bold tracking-wider">Expected Rent</span>

@@ -4,21 +4,25 @@
     <div class="row justify-content-center">
       <div class="col-lg-10 col-xl-9">
         
-        <!-- Header -->
+        <!-- Header (Requirement 1: Edit vs Create) -->
         <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
           <div>
             <h2 class="fw-bold mb-1 d-flex align-items-center gap-2">
-              <i class="bi bi-pencil-square text-primary"></i> Create New Post
+              <i class="bi bi-pencil-square text-primary"></i> {{ isEditMode ? 'Edit Apartment Listing' : 'Create New Post' }}
             </h2>
-            <p class="text-muted small mb-0">Fill in the property details to create a detailed apartment listing</p>
+            <p class="text-muted small mb-0">
+              {{ isEditMode ? 'Update specifications, pricing, amenities, and photos for this listing' : 'Fill in the property details to create a detailed apartment listing' }}
+            </p>
           </div>
           <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill" (click)="fillDemoData()">
-              <i class="bi bi-magic me-1"></i> Quick Fill Demo Data
-            </button>
-            <a routerLink="/" class="btn btn-outline-secondary btn-sm rounded-pill">
+            @if (!isEditMode) {
+              <button type="button" class="btn btn-outline-primary btn-sm rounded-pill" (click)="fillDemoData()">
+                <i class="bi bi-magic me-1"></i> Quick Fill Demo Data
+              </button>
+            }
+            <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill" (click)="cancel()">
               Cancel
-            </a>
+            </button>
           </div>
         </div>
 
@@ -150,14 +154,19 @@
                   <label class="form-label" for="zipCode">Zip Code <span class="text-danger">*</span></label>
                   <input
                     type="text"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
                     id="zipCode"
                     class="form-control"
-                    placeholder="e.g. 94123"
+                    placeholder="e.g. 110001 or 94123"
                     formControlName="zipCode"
+                    maxlength="10"
+                    (keypress)="onlyNumbers($event)"
+                    (input)="onZipInput($event)"
                     [class.is-invalid]="postForm.get('zipCode')?.touched && postForm.get('zipCode')?.invalid"
                   />
                   @if (postForm.get('zipCode')?.touched && postForm.get('zipCode')?.invalid) {
-                    <div class="invalid-feedback">Valid zip code is required.</div>
+                    <div class="invalid-feedback">Only numbers are allowed for zip code (4 to 10 digits).</div>
                   }
                 </div>
               </div>
@@ -409,64 +418,77 @@
               </div>
             </div>
 
-            <!-- SECTION 8: Photos -->
+            <!-- SECTION 8: Photos (Requirement 3: Custom URL option, no pre-selected images) -->
             <div class="form-section mb-4 pb-4 border-bottom">
-              <h5 class="fw-bold text-dark mb-3">
-                <i class="bi bi-images text-primary me-2"></i>Property Photos
-              </h5>
-
-              <p class="text-muted small mb-2">Select from sample high-res architectural photos or paste custom image URLs:</p>
-
-              <!-- Sample Preset Picker -->
-              <div class="d-flex gap-2 overflow-x-auto pb-2 mb-3">
-                @for (photo of samplePhotos; track photo; let idx = $index) {
-                  <div
-                    class="sample-photo-chip position-relative rounded-3 overflow-hidden border"
-                    [class.border-primary]="isPhotoSelected(photo)"
-                    [class.border-2]="isPhotoSelected(photo)"
-                    (click)="toggleSamplePhoto(photo)"
-                  >
-                    <img [src]="photo" [alt]="'Sample ' + idx" class="w-100 h-100 object-fit-cover" />
-                    @if (isPhotoSelected(photo)) {
-                      <div class="position-absolute top-0 end-0 m-1 bg-primary text-white rounded-circle p-1 d-flex align-items-center justify-content-center" style="width: 20px; height: 20px; font-size: 10px;">
-                        <i class="bi bi-check-lg"></i>
-                      </div>
-                    }
-                  </div>
-                }
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="fw-bold text-dark mb-0">
+                  <i class="bi bi-images text-primary me-2"></i>Property Photos <span class="text-danger">*</span>
+                </h5>
+                <span class="badge bg-secondary-subtle text-secondary small">
+                  {{ selectedPhotos.length }} photo{{ selectedPhotos.length === 1 ? '' : 's' }} added
+                </span>
               </div>
 
-              <!-- Add Custom Photo URL -->
-              <div class="input-group mb-3">
-                <input
-                  type="url"
-                  class="form-control"
-                  placeholder="Paste image URL (e.g. https://images.unsplash.com/...)"
-                  [(ngModel)]="customPhotoUrl"
-                  [ngModelOptions]="{standalone: true}"
-                />
-                <button type="button" class="btn btn-outline-primary" (click)="addCustomPhoto()">
-                  <i class="bi bi-plus-lg me-1"></i> Add Photo URL
-                </button>
+              <!-- Custom Photo URL Input Box -->
+              <div class="p-3 bg-light rounded-3 border mb-3">
+                <label class="form-label small fw-bold text-dark mb-1" for="customPhotoUrlInput">
+                  <i class="bi bi-link-45deg text-primary me-1"></i>Add Custom Photo URL
+                </label>
+                <div class="input-group">
+                  <input
+                    type="url"
+                    id="customPhotoUrlInput"
+                    class="form-control"
+                    placeholder="Enter or paste image URL (e.g. https://images.unsplash.com/photo-...)"
+                    [(ngModel)]="customPhotoUrl"
+                    [ngModelOptions]="{standalone: true}"
+                    (keydown.enter)="$event.preventDefault(); addCustomPhoto()"
+                  />
+                  <button type="button" class="btn btn-primary d-flex align-items-center gap-1 px-3 fw-semibold shadow-sm" (click)="addCustomPhoto()">
+                    <i class="bi bi-plus-circle-fill"></i>
+                    <span>Add Photo</span>
+                  </button>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2 flex-wrap gap-2">
+                  <small class="text-muted">Direct links to JPG, PNG, or WebP images supported.</small>
+                  <button type="button" class="btn btn-sm btn-link text-decoration-none p-0 text-primary small fw-medium" (click)="insertSampleUrl()">
+                    <i class="bi bi-magic me-1"></i>Insert sample image URL
+                  </button>
+                </div>
               </div>
 
-              <!-- Selected Photos Count & Previews -->
-              <div class="selected-photos-preview d-flex flex-wrap gap-2">
-                @for (photo of selectedPhotos; track photo; let idx = $index) {
-                  <div class="position-relative border rounded-3 overflow-hidden shadow-sm" style="width: 100px; height: 75px;">
-                    <img [src]="photo" alt="Selected photo" class="w-100 h-100 object-fit-cover" />
-                    <button
-                      type="button"
-                      class="btn btn-danger btn-sm p-0 position-absolute top-0 end-0 m-1 rounded-circle d-flex align-items-center justify-content-center"
-                      style="width: 22px; height: 22px;"
-                      (click)="removePhoto(idx)"
-                      title="Remove Photo"
-                    >
-                      <i class="bi bi-x"></i>
-                    </button>
-                  </div>
-                }
-              </div>
+              <!-- Photos Preview / Empty State -->
+              @if (selectedPhotos.length === 0) {
+                <div class="text-center py-4 border border-dashed rounded-3 bg-white text-muted mb-2">
+                  <i class="bi bi-image fs-1 d-block mb-1 text-secondary opacity-50"></i>
+                  <p class="mb-1 fw-medium text-dark">No photos added yet</p>
+                  <small class="text-muted">Enter a custom image URL above and click "Add Photo" to attach images to your listing.</small>
+                </div>
+              } @else {
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="small fw-bold text-dark">Photos Preview</span>
+                  <span class="small text-muted">First photo will be displayed as the main cover photo</span>
+                </div>
+                <div class="selected-photos-preview d-flex flex-wrap gap-3">
+                  @for (photo of selectedPhotos; track photo; let idx = $index) {
+                    <div class="position-relative border rounded-3 overflow-hidden shadow-sm" style="width: 120px; height: 90px;">
+                      <img [src]="photo" alt="Apartment photo" class="w-100 h-100 object-fit-cover" />
+                      @if (idx === 0) {
+                        <span class="position-absolute bottom-0 start-0 m-1 badge bg-dark bg-opacity-75" style="font-size: 10px;">Cover</span>
+                      }
+                      <button
+                        type="button"
+                        class="btn btn-danger btn-sm p-0 position-absolute top-0 end-0 m-1 rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                        style="width: 22px; height: 22px;"
+                        (click)="removePhoto(idx)"
+                        title="Remove Photo"
+                      >
+                        <i class="bi bi-x"></i>
+                      </button>
+                    </div>
+                  }
+                </div>
+              }
             </div>
 
             <!-- SECTION 9: Landlord Contact Details -->
@@ -530,14 +552,34 @@
                 All fields marked with <span class="text-danger">*</span> are required.
               </span>
 
-              <!-- Proceed to Preview and Submit Screen (Bonus Question) -->
-              <button
-                type="submit"
-                class="btn btn-primary px-5 py-2-5 rounded-pill fw-semibold shadow-sm d-flex align-items-center gap-2"
-              >
-                <span>Review & Preview Post</span>
-                <i class="bi bi-arrow-right"></i>
-              </button>
+              <!-- Action Buttons (Requirement 1: Save Updates vs Preview Post) -->
+              @if (isEditMode) {
+                <div class="d-flex align-items-center gap-2">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary px-4 py-2 rounded-pill fw-semibold"
+                    (click)="cancel()"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary px-5 py-2 rounded-pill fw-semibold shadow-sm d-flex align-items-center gap-2"
+                    (click)="onSaveUpdates()"
+                  >
+                    <i class="bi bi-check2-circle fs-5"></i>
+                    <span>Save & Update Listing</span>
+                  </button>
+                </div>
+              } @else {
+                <button
+                  type="submit"
+                  class="btn btn-primary px-5 py-2 rounded-pill fw-semibold shadow-sm d-flex align-items-center gap-2"
+                >
+                  <span>Review & Preview Post</span>
+                  <i class="bi bi-arrow-right"></i>
+                </button>
+              }
             </div>
 
           </form>

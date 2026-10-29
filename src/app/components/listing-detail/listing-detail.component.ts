@@ -79,6 +79,13 @@ export class ListingDetailComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
+  // Requirement 1: Check if currently logged in user owns this listing
+  get isOwner(): boolean {
+    if (!this.currentUser || !this.apartment) return false;
+    return this.currentUser.id === this.apartment.landlordId ||
+           this.currentUser.email === this.apartment.contact.email;
+  }
+
   loadListing(id: string): void {
     const found = this.listingService.getListingById(id);
     if (!found) {

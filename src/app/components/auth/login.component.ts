@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  fillDemoLandlord(): void {
+  fillDemoAccount(): void {
     this.loginForm.patchValue({
       email: 'landlord@renthub.com',
       password: 'Password123!'
@@ -57,12 +57,12 @@ export class LoginComponent implements OnInit {
     this.errorMessage = '';
   }
 
+  fillDemoLandlord(): void {
+    this.fillDemoAccount();
+  }
+
   fillDemoRenter(): void {
-    this.loginForm.patchValue({
-      email: 'renter@renthub.com',
-      password: 'Password123!'
-    });
-    this.errorMessage = '';
+    this.fillDemoAccount();
   }
 }
 

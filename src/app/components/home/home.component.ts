@@ -6,6 +6,7 @@ import { FavoritesService } from '../../services/favorites.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 import { Apartment, PropertyType, StayType, AVAILABLE_AMENITIES } from '../../models/apartment.model';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   allListings: Apartment[] = [];
   filteredListings: Apartment[] = [];
   featuredListings: Apartment[] = [];
+  currentUser: User | null = null;
   currentCarouselIndex = 0;
   carouselIntervalSub?: Subscription;
 
@@ -52,6 +54,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.subs.add(
+      this.authService.currentUser$.subscribe(user => {
+        this.currentUser = user;
+      })
+    );
+
     this.subs.add(
       this.listingService.listings$.subscribe(listings => {
         this.allListings = listings;

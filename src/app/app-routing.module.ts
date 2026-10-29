@@ -16,6 +16,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'RentHub - Apartment Rentals' },
   { path: 'listings/:id', component: ListingDetailComponent, title: 'Apartment Details - RentHub' },
   { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuard], title: 'Create Post - RentHub' },
+  { path: 'edit-post/:id', component: CreatePostComponent, canActivate: [AuthGuard], title: 'Edit Post - RentHub' },
   { path: 'preview-post', component: PreviewPostComponent, canActivate: [AuthGuard], title: 'Preview & Submit - RentHub' },
   { path: 'login', component: LoginComponent, title: 'Login - RentHub' },
   { path: 'register', component: RegisterComponent, title: 'Register - RentHub' },

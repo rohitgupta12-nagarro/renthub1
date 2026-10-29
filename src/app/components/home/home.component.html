@@ -398,16 +398,28 @@
                 </span>
               </div>
 
-              <!-- Bottom Action: View Details Button (No duplicate text favorite button) -->
-              <div class="mt-auto pt-2 border-top">
+              <!-- Bottom Action: View Details Button & Owner Edit Button -->
+              <div class="mt-auto pt-2 border-top d-flex gap-2">
                 <button
                   type="button"
-                  class="btn btn-outline-primary w-100 fw-semibold py-2 rounded-3 d-flex align-items-center justify-content-center gap-2"
+                  class="btn btn-outline-primary flex-grow-1 fw-semibold py-2 rounded-3 d-flex align-items-center justify-content-center gap-2"
                   (click)="viewDetails(apartment.id); $event.stopPropagation()"
                 >
                   <span>View Details</span>
                   <i class="bi bi-chevron-right small"></i>
                 </button>
+                @if (currentUser && (currentUser.id === apartment.landlordId || currentUser.email === apartment.contact.email)) {
+                  <a
+                    [routerLink]="['/create-post']"
+                    [queryParams]="{ edit: apartment.id }"
+                    class="btn btn-outline-success fw-semibold py-2 px-3 rounded-3 d-flex align-items-center justify-content-center gap-1"
+                    (click)="$event.stopPropagation()"
+                    title="Edit Your Listing"
+                  >
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Edit</span>
+                  </a>
+                }
               </div>
 
             </div>
