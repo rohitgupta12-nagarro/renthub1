@@ -1,0 +1,474 @@
+<div class="home-page pb-5">
+  <div class="container mt-4">
+
+    <!-- Top Hero: Featured Listings Carousel (Wireframe Page 3) -->
+    @if (featuredListings.length > 0 && currentFeatured) {
+      <div class="featured-carousel-card shadow-sm border rounded-4 overflow-hidden mb-5 bg-white">
+        <div class="row g-0 align-items-stretch">
+          
+          <!-- Carousel Visual Area (Left) -->
+          <div class="col-lg-7 col-md-12 position-relative carousel-visual"
+               (mouseenter)="stopCarouselAutoPlay()"
+               (mouseleave)="startCarouselAutoPlay()">
+            <div class="carousel-slide-image-wrapper">
+              <img
+                [src]="currentFeatured.photos[0]"
+                [alt]="currentFeatured.title"
+                class="carousel-img w-100 h-100 object-fit-cover"
+              />
+              <div class="carousel-gradient-overlay"></div>
+            </div>
+
+            <!-- Slide Navigation Arrows (Wireframe < >) -->
+            <button
+              class="carousel-arrow carousel-arrow-left btn btn-light rounded-circle shadow-sm"
+              (click)="prevSlide()"
+              aria-label="Previous Slide"
+            >
+              <i class="bi bi-chevron-left fs-5"></i>
+            </button>
+            <button
+              class="carousel-arrow carousel-arrow-right btn btn-light rounded-circle shadow-sm"
+              (click)="nextSlide()"
+              aria-label="Next Slide"
+            >
+              <i class="bi bi-chevron-right fs-5"></i>
+            </button>
+
+            <!-- Carousel Slide Indicators -->
+            <div class="carousel-indicators-bar d-flex justify-content-center gap-2">
+              @for (item of featuredListings; track item.id; let idx = $index) {
+                <button
+                  class="indicator-dot border-0"
+                  [class.active]="idx === currentCarouselIndex"
+                  (click)="goToSlide(idx)"
+                  [attr.aria-label]="'Go to slide ' + (idx + 1)"
+                ></button>
+              }
+            </div>
+
+            <div class="featured-badge position-absolute top-0 start-0 m-3">
+              <span class="badge bg-primary text-white px-3 py-2 rounded-pill shadow-sm fw-semibold">
+                <i class="bi bi-star-fill text-warning me-1"></i> Featured Highlight
+              </span>
+            </div>
+          </div>
+
+          <!-- Featured Info Panel (Right, matching Wireframe Page 3) -->
+          <div class="col-lg-5 col-md-12 p-4 p-lg-5 d-flex flex-column justify-content-between bg-white">
+            <div>
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill fw-medium">
+                  {{ currentFeatured.propertyType }}
+                </span>
+                <span class="text-muted small">
+                  <i class="bi bi-eye me-1"></i> {{ currentFeatured.viewsCount || 100 }} views
+                </span>
+              </div>
+
+              <h2 class="fs-4 fw-bold text-dark mb-2">{{ currentFeatured.title }}</h2>
+              
+              <p class="text-muted small mb-3">
+                <i class="bi bi-geo-alt-fill text-danger me-1"></i>
+                {{ currentFeatured.address.street }}, {{ currentFeatured.address.city }}, {{ currentFeatured.address.state }}
+              </p>
+
+              <div class="featured-price-box p-3 rounded-3 bg-light border mb-3">
+                <div class="d-flex align-items-baseline gap-1">
+                  <span class="fs-3 fw-bolder text-primary">${{ currentFeatured.rent | number }}</span>
+                  <span class="text-muted small">/ {{ currentFeatured.priceMode === 'Per Month' ? 'mo' : 'mo (utilities inc.)' }}</span>
+                  @if (currentFeatured.isNegotiable) {
+                    <span class="badge bg-success-subtle text-success ms-auto small">Negotiable</span>
+                  }
+                </div>
+              </div>
+
+              <div class="row g-2 text-muted small mb-3">
+                <div class="col-6 d-flex align-items-center gap-2">
+                  <i class="bi bi-door-open fs-5 text-secondary"></i>
+                  <span>{{ currentFeatured.bedrooms }} Bedroom{{ currentFeatured.bedrooms > 1 ? 's' : '' }}</span>
+                </div>
+                <div class="col-6 d-flex align-items-center gap-2">
+                  <i class="bi bi-aspect-ratio fs-5 text-secondary"></i>
+                  <span>{{ currentFeatured.squareFeet | number }} sq ft</span>
+                </div>
+                <div class="col-6 d-flex align-items-center gap-2">
+                  <i class="bi bi-clock-history fs-5 text-secondary"></i>
+                  <span>{{ currentFeatured.stayType }}</span>
+                </div>
+                <div class="col-6 d-flex align-items-center gap-2">
+                  <i class="bi bi-check2-circle fs-5 text-secondary"></i>
+                  <span>{{ currentFeatured.isFurnished ? 'Furnished' : 'Unfurnished' }}</span>
+                </div>
+              </div>
+
+              <p class="text-secondary small description-clamp mb-4">
+                {{ currentFeatured.description }}
+              </p>
+            </div>
+
+            <!-- Wireframe Quick Actions: "View Details" and "Mark as Favorite" -->
+            <div class="d-flex gap-2 pt-2 border-top">
+              <button
+                class="btn btn-primary flex-grow-1 fw-semibold py-2 d-flex align-items-center justify-content-center gap-2 rounded-3"
+                (click)="viewDetails(currentFeatured.id)"
+              >
+                <span>View Details</span>
+                <i class="bi bi-arrow-right"></i>
+              </button>
+              <button
+                class="btn py-2 px-3 fw-semibold d-flex align-items-center gap-2 rounded-3"
+                [class.btn-outline-danger]="!favoritesService.isFavorite(currentFeatured.id)"
+                [class.btn-danger]="favoritesService.isFavorite(currentFeatured.id)"
+                (click)="toggleFavorite($event, currentFeatured)"
+                [title]="favoritesService.isFavorite(currentFeatured.id) ? 'Remove Favorite' : 'Mark as Favorite'"
+              >
+                <i class="bi" [class.bi-heart-fill]="favoritesService.isFavorite(currentFeatured.id)" [class.bi-heart]="!favoritesService.isFavorite(currentFeatured.id)"></i>
+                <span class="d-none d-sm-inline">
+                  {{ favoritesService.isFavorite(currentFeatured.id) ? 'Favorited' : 'Mark as Favorite' }}
+                </span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    }
+
+    <!-- Search & Advanced Filter Section -->
+    <div class="filter-section p-4 bg-white rounded-4 border shadow-sm mb-5">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+        <div>
+          <h4 class="fw-bold mb-1 d-flex align-items-center gap-2">
+            <i class="bi bi-sliders text-primary"></i> Search & Filter Listings
+          </h4>
+          <p class="text-muted small mb-0">Find apartments matching your location, budget, amenities and preferences</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          @if (activeFiltersCount > 0) {
+            <span class="badge bg-primary rounded-pill px-3 py-2 small">
+              {{ activeFiltersCount }} active filter{{ activeFiltersCount > 1 ? 's' : '' }}
+            </span>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill" (click)="resetFilters()">
+              <i class="bi bi-arrow-counterclockwise"></i> Reset All
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Main Search Row -->
+      <div class="row g-3 mb-3">
+        <!-- Search Keyword -->
+        <div class="col-lg-6 col-md-12">
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0 text-muted">
+              <i class="bi bi-search"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control border-start-0 ps-0"
+              placeholder="Search by city, title, neighborhood, address, or society..."
+              [(ngModel)]="searchTerm"
+              (ngModelChange)="applyFilters()"
+            />
+            @if (searchTerm) {
+              <button class="btn btn-outline-secondary border-start-0" type="button" (click)="searchTerm = ''; applyFilters()">
+                <i class="bi bi-x"></i>
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Property Type Dropdown -->
+        <div class="col-lg-3 col-md-6">
+          <select
+            class="form-select"
+            [(ngModel)]="selectedPropertyType"
+            (ngModelChange)="applyFilters()"
+          >
+            <option value="ALL">All Property Types</option>
+            <option value="Apartment">Apartment</option>
+            <option value="Independent House">Independent House</option>
+            <option value="Villa">Villa</option>
+            <option value="Studio">Studio</option>
+            <option value="Penthouse">Penthouse</option>
+          </select>
+        </div>
+
+        <!-- Stay / Lease Type -->
+        <div class="col-lg-3 col-md-6">
+          <select
+            class="form-select"
+            [(ngModel)]="selectedStayType"
+            (ngModelChange)="applyFilters()"
+          >
+            <option value="ALL">All Lease Types</option>
+            <option value="Long term (6+ months)">Long term (6+ months)</option>
+            <option value="Short term">Short term</option>
+            <option value="Both">Flexible / Both</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Secondary Filter Row: Price Range, Furnished, Veg Preference, Sorting -->
+      <div class="row g-3 mb-3">
+        <div class="col-lg-3 col-md-6">
+          <div class="input-group">
+            <span class="input-group-text bg-light small">$</span>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Min Rent"
+              [(ngModel)]="minPrice"
+              (ngModelChange)="applyFilters()"
+              min="0"
+            />
+            <span class="input-group-text bg-light small">to $</span>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Max Rent"
+              [(ngModel)]="maxPrice"
+              (ngModelChange)="applyFilters()"
+              min="0"
+            />
+          </div>
+        </div>
+
+        <!-- Furnished Option -->
+        <div class="col-lg-3 col-md-6">
+          <select
+            class="form-select"
+            [(ngModel)]="selectedFurnished"
+            (ngModelChange)="applyFilters()"
+          >
+            <option value="ALL">Furnished: Any</option>
+            <option value="FURNISHED">Fully Furnished</option>
+            <option value="UNFURNISHED">Unfurnished</option>
+          </select>
+        </div>
+
+        <!-- Vegetarian Preference -->
+        <div class="col-lg-3 col-md-6">
+          <select
+            class="form-select"
+            [(ngModel)]="selectedVegPreference"
+            (ngModelChange)="applyFilters()"
+          >
+            <option value="ALL">Food Pref: Any</option>
+            <option value="Vegetarian Only">Vegetarian Only</option>
+            <option value="Non-Vegetarian">Non-Vegetarian</option>
+          </select>
+        </div>
+
+        <!-- Sort Control -->
+        <div class="col-lg-3 col-md-6">
+          <select
+            class="form-select"
+            [(ngModel)]="sortBy"
+            (ngModelChange)="applyFilters()"
+          >
+            <option value="newest">Sort: Most Recent</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="sqft-desc">Size: Largest Sq Ft</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Amenities Filter Pills -->
+      <div class="pt-2 border-top">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="small fw-bold text-muted text-uppercase tracking-wider">Filter by Amenities:</span>
+          @if (selectedAmenities.length > 0) {
+            <button class="btn btn-link btn-sm text-decoration-none p-0" (click)="selectedAmenities = []; applyFilters()">
+              Clear amenities
+            </button>
+          }
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          @for (amenity of availableAmenities; track amenity) {
+            <button
+              type="button"
+              class="btn btn-sm rounded-pill amenity-pill"
+              [class.btn-primary]="isAmenitySelected(amenity)"
+              [class.btn-outline-secondary]="!isAmenitySelected(amenity)"
+              (click)="toggleAmenity(amenity)"
+            >
+              @if (isAmenitySelected(amenity)) {
+                <i class="bi bi-check2 me-1"></i>
+              }
+              {{ amenity }}
+            </button>
+          }
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Listings Section Header (Wireframe: "All Listings") -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+      <div>
+        <h3 class="fw-bolder mb-1">All Listings</h3>
+        <p class="text-muted small mb-0">
+          Showing <strong>{{ filteredListings.length }}</strong> available apartment{{ filteredListings.length === 1 ? '' : 's' }}
+        </p>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <span class="small text-muted">Per page:</span>
+        <select class="form-select form-select-sm w-auto" [(ngModel)]="itemsPerPage" (ngModelChange)="applyFilters()">
+          <option [ngValue]="3">3</option>
+          <option [ngValue]="6">6</option>
+          <option [ngValue]="9">9</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    @if (filteredListings.length === 0) {
+      <div class="text-center py-5 bg-white rounded-4 border shadow-sm my-4">
+        <div class="display-3 text-muted mb-3"><i class="bi bi-building-slash"></i></div>
+        <h4 class="fw-bold">No Listings Match Your Filters</h4>
+        <p class="text-muted">Try adjusting your price range, search query, or selected amenities to discover more homes.</p>
+        <button class="btn btn-primary rounded-pill px-4 py-2 mt-2" (click)="resetFilters()">
+          <i class="bi bi-arrow-counterclockwise me-1"></i> Reset All Filters
+        </button>
+      </div>
+    }
+
+    <!-- Listings Grid (Wireframe Page 3: Apartment 1, Apartment 2, Apartment 3 3-column layout) -->
+    <div class="row g-4 mb-5">
+      @for (apartment of paginatedListings; track apartment.id) {
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="card h-100 listing-card border rounded-4 overflow-hidden shadow-sm d-flex flex-column"
+               (click)="viewDetails(apartment.id)">
+            
+            <!-- Card Image Box with Favorite Button -->
+            <div class="card-img-container position-relative overflow-hidden">
+              <img
+                [src]="apartment.photos[0] || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80'"
+                [alt]="apartment.title"
+                class="card-img-top object-fit-cover w-100"
+                loading="lazy"
+              />
+
+              <!-- Top Left Badges -->
+              <div class="position-absolute top-0 start-0 m-3 d-flex flex-column gap-1">
+                <span class="badge bg-dark bg-opacity-75 backdrop-blur text-white px-2 py-1 rounded-pill small">
+                  {{ apartment.propertyType }}
+                </span>
+                @if (apartment.isShared) {
+                  <span class="badge bg-info text-dark px-2 py-1 rounded-pill small fw-semibold">
+                    Shared Property
+                  </span>
+                }
+              </div>
+
+              <!-- Top Right Favorite Action -->
+              <button
+                class="btn btn-light btn-favorite-toggle rounded-circle position-absolute top-0 end-0 m-3 shadow-sm d-flex align-items-center justify-content-center"
+                [class.text-danger]="favoritesService.isFavorite(apartment.id)"
+                [class.text-secondary]="!favoritesService.isFavorite(apartment.id)"
+                (click)="toggleFavorite($event, apartment)"
+                [title]="favoritesService.isFavorite(apartment.id) ? 'Remove Favorite' : 'Mark as Favorite'"
+              >
+                <i class="bi fs-5" [class.bi-heart-fill]="favoritesService.isFavorite(apartment.id)" [class.bi-heart]="!favoritesService.isFavorite(apartment.id)"></i>
+              </button>
+
+              <!-- Bottom Price Tag Over Image -->
+              <div class="position-absolute bottom-0 start-0 end-0 p-3 bg-gradient-dark text-white d-flex align-items-baseline justify-content-between">
+                <div>
+                  <span class="fs-4 fw-bold">${{ apartment.rent | number }}</span>
+                  <span class="small opacity-75">/ {{ apartment.priceMode === 'Per Month' ? 'mo' : 'mo (inc.)' }}</span>
+                </div>
+                @if (apartment.isNegotiable) {
+                  <span class="badge bg-success small">Negotiable</span>
+                }
+              </div>
+            </div>
+
+            <!-- Card Body (Wireframe Page 3 info: Apartment Name, Address, Details, Description) -->
+            <div class="card-body p-4 d-flex flex-column flex-grow-1">
+              <div class="d-flex align-items-center gap-1 text-muted small mb-1">
+                <i class="bi bi-geo-alt text-danger"></i>
+                <span class="text-truncate">{{ apartment.address.street }}, {{ apartment.address.city }}</span>
+              </div>
+
+              <h5 class="card-title fw-bold text-dark text-truncate mb-2" [title]="apartment.title">
+                {{ apartment.title }}
+              </h5>
+
+              <!-- Quick Specs -->
+              <div class="d-flex align-items-center gap-3 text-secondary small py-2 my-2 border-top border-bottom">
+                <span><i class="bi bi-door-open me-1 text-primary"></i> {{ apartment.bedrooms }} Bed</span>
+                <span><i class="bi bi-aspect-ratio me-1 text-primary"></i> {{ apartment.squareFeet }} sqft</span>
+                <span><i class="bi bi-tag me-1 text-primary"></i> {{ apartment.isFurnished ? 'Furnished' : 'Unfurnished' }}</span>
+              </div>
+
+              <!-- Description snippet (Wireframe Page 3) -->
+              <p class="card-text text-muted small flex-grow-1 description-snippet mb-3">
+                {{ apartment.description }}
+              </p>
+
+              <!-- Wireframe Quick Actions at Card Bottom: "View Details" & "Mark as Favorite" -->
+              <div class="card-actions-row pt-2 d-flex gap-2">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary flex-grow-1 fw-semibold py-2 rounded-3 d-flex align-items-center justify-content-center gap-1"
+                  (click)="viewDetails(apartment.id); $event.stopPropagation()"
+                >
+                  <span>View Details</span>
+                  <i class="bi bi-chevron-right small"></i>
+                </button>
+
+                <button
+                  type="button"
+                  class="btn fw-semibold py-2 px-3 rounded-3 d-flex align-items-center gap-1"
+                  [class.btn-danger]="favoritesService.isFavorite(apartment.id)"
+                  [class.btn-outline-secondary]="!favoritesService.isFavorite(apartment.id)"
+                  (click)="toggleFavorite($event, apartment)"
+                  [title]="favoritesService.isFavorite(apartment.id) ? 'Remove Favorite' : 'Mark as Favorite'"
+                >
+                  <i class="bi" [class.bi-heart-fill]="favoritesService.isFavorite(apartment.id)" [class.bi-heart]="!favoritesService.isFavorite(apartment.id)"></i>
+                  <span class="d-none d-xl-inline">
+                    {{ favoritesService.isFavorite(apartment.id) ? 'Favorited' : 'Favorite' }}
+                  </span>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Pagination Controls (Wireframe Page 2 requirement: "paginated listing section") -->
+    @if (totalPages > 1) {
+      <nav aria-label="Listing Pagination" class="d-flex justify-content-center my-4">
+        <ul class="pagination pagination-md shadow-sm">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="setPage(currentPage - 1)" aria-label="Previous">
+              <i class="bi bi-chevron-left me-1"></i> Prev
+            </button>
+          </li>
+          
+          @for (p of pageNumbers; track p) {
+            <li class="page-item" [class.active]="p === currentPage">
+              <button class="page-link" (click)="setPage(p)">{{ p }}</button>
+            </li>
+          }
+
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="setPage(currentPage + 1)" aria-label="Next">
+              Next <i class="bi bi-chevron-right ms-1"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    }
+
+  </div>
+</div>

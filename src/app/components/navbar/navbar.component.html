@@ -1,0 +1,118 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm py-2">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/">
+      <div class="brand-icon d-flex align-items-center justify-content-center">
+        <i class="bi bi-buildings fs-4 text-white"></i>
+      </div>
+      <span class="brand-text fw-bold fs-4 tracking-wide text-white">Rent<span class="text-primary">Hub</span></span>
+    </a>
+
+    <button
+      class="navbar-toggler border-0"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#renthubNavbar"
+      aria-controls="renthubNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="renthubNavbar">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3 gap-1">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="bi bi-house-door me-1"></i> Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/favorites" routerLinkActive="active">
+            <i class="bi bi-heart me-1"></i> Favorites
+            @if (favoriteCount > 0) {
+              <span class="badge rounded-pill bg-danger ms-1">{{ favoriteCount }}</span>
+            }
+          </a>
+        </li>
+        @if (currentUser) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/inquiries" routerLinkActive="active">
+              <i class="bi bi-chat-left-text me-1"></i> Inquiries
+            </a>
+          </li>
+        }
+      </ul>
+
+      <div class="d-flex align-items-center gap-3">
+        <!-- Post Apartment Button -->
+        <a class="btn btn-primary d-flex align-items-center gap-2 fw-semibold px-3 py-2 rounded-pill shadow-sm" routerLink="/create-post">
+          <i class="bi bi-plus-circle-fill"></i>
+          <span>Post Apartment</span>
+        </a>
+
+        @if (!currentUser) {
+          <!-- Guest Navigation (Wireframe Page 3) -->
+          <div class="d-flex align-items-center gap-2">
+            <a routerLink="/login" class="btn btn-outline-light btn-sm px-3 py-1-5 rounded-pill fw-medium">
+              Login
+            </a>
+            <a routerLink="/register" class="btn btn-outline-primary btn-sm px-3 py-1-5 rounded-pill fw-medium text-white border-primary">
+              Register
+            </a>
+          </div>
+        } @else {
+          <!-- Authenticated User Profile Menu -->
+          <div class="dropdown">
+            <button
+              class="btn btn-outline-secondary d-flex align-items-center gap-2 rounded-pill px-3 py-1 text-white border-secondary dropdown-toggle"
+              type="button"
+              id="userMenuButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              @if (currentUser.avatarUrl) {
+                <img [src]="currentUser.avatarUrl" [alt]="currentUser.name" class="rounded-circle user-avatar" />
+              } @else {
+                <i class="bi bi-person-circle fs-5"></i>
+              }
+              <div class="text-start d-none d-sm-block">
+                <span class="fw-semibold small d-block leading-tight">{{ currentUser.name }}</span>
+                <span class="badge bg-secondary text-capitalize" style="font-size: 0.65rem;">{{ currentUser.role }}</span>
+              </div>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 p-2" aria-labelledby="userMenuButton">
+              <li class="px-3 py-2 border-bottom mb-1">
+                <span class="d-block fw-bold text-dark">{{ currentUser.name }}</span>
+                <small class="text-muted">{{ currentUser.email }}</small>
+              </li>
+              <li>
+                <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2" routerLink="/profile">
+                  <i class="bi bi-person text-primary"></i> Profile
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2" routerLink="/favorites">
+                  <i class="bi bi-heart text-danger"></i> Saved Favorites
+                  @if (favoriteCount > 0) {
+                    <span class="badge bg-danger ms-auto">{{ favoriteCount }}</span>
+                  }
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2" routerLink="/inquiries">
+                  <i class="bi bi-envelope text-info"></i> Direct Inquiries
+                </a>
+              </li>
+              <li><hr class="dropdown-divider my-1"></li>
+              <li>
+                <button (click)="logout()" class="dropdown-item rounded py-2 text-danger d-flex align-items-center gap-2">
+                  <i class="bi bi-box-arrow-right"></i> Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</nav>

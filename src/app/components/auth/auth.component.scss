@@ -1,0 +1,9 @@
+.auth-page {
+  min-height: calc(100vh - 180px);
+  display: flex;
+  align-items: center;
+}
+
+.brand-badge {
+  background: linear-gradient(135deg, #0d6efd 0%, #00b4d8 100%);
+}

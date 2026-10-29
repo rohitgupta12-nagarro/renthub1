@@ -1,0 +1,175 @@
+@if (draftPost) {
+  <div class="preview-post-page py-4">
+    <div class="container">
+      
+      <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-9">
+          
+          <!-- Bonus Feature Banner -->
+          <div class="alert alert-primary d-flex align-items-center justify-content-between rounded-4 border-0 shadow-sm p-3 mb-4">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-patch-check-fill fs-4 text-primary"></i>
+              <div>
+                <strong class="d-block">Bonus Feature: Preview and Submit Screen</strong>
+                <span class="small text-muted">Review your apartment listing exactly as prospective renters will see it before publishing.</span>
+              </div>
+            </div>
+            <span class="badge bg-primary px-3 py-2 rounded-pill d-none d-md-inline-block">Bonus Deliverable</span>
+          </div>
+
+          <!-- Preview & Submit Card (Wireframe Page 6) -->
+          <div class="card border rounded-4 bg-white shadow-sm p-4 p-md-5 mb-4">
+            
+            <div class="text-center mb-4 pb-3 border-bottom">
+              <h2 class="fw-bolder text-dark mb-1">Preview and Submit</h2>
+              <p class="text-muted small mb-0">Please verify all listing information before final submission</p>
+            </div>
+
+            <!-- Wireframe Top Grid: Property Type & Number of Beds -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <div class="preview-field-box p-3 rounded-3 border bg-light h-100">
+                  <span class="text-muted small fw-bold text-uppercase d-block mb-1">Property Type</span>
+                  <span class="fs-5 fw-bold text-dark">{{ draftPost.propertyType }}</span>
+                  <span class="badge bg-secondary-subtle text-secondary ms-2">{{ draftPost.buildingName }}</span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="preview-field-box p-3 rounded-3 border bg-light h-100">
+                  <span class="text-muted small fw-bold text-uppercase d-block mb-1">Number of Beds & Baths</span>
+                  <span class="fs-5 fw-bold text-dark">{{ draftPost.bedrooms }} Bedroom{{ draftPost.bedrooms > 1 ? 's' : '' }}, {{ draftPost.bathrooms }} Bath</span>
+                  <span class="text-muted small ms-2">({{ draftPost.squareFeet | number }} sq ft)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Wireframe Row 2: Address & Rent -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <div class="preview-field-box p-3 rounded-3 border bg-light h-100">
+                  <span class="text-muted small fw-bold text-uppercase d-block mb-1">Address</span>
+                  <p class="fw-semibold text-dark mb-0">
+                    {{ draftPost.address.street }}<br>
+                    {{ draftPost.address.city }}, {{ draftPost.address.state }} {{ draftPost.address.zipCode }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="preview-field-box p-3 rounded-3 border bg-light h-100">
+                  <span class="text-muted small fw-bold text-uppercase d-block mb-1">Rent</span>
+                  <div class="d-flex align-items-baseline gap-1">
+                    <span class="fs-4 fw-bolder text-primary">${{ draftPost.rent | number }}</span>
+                    <span class="text-muted small">/ {{ draftPost.priceMode === 'Per Month' ? 'month' : 'month (utilities included)' }}</span>
+                    @if (draftPost.isNegotiable) {
+                      <span class="badge bg-success small ms-2">Negotiable</span>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Wireframe Row 3: Description & Amenities -->
+            <div class="row g-3 mb-4">
+              <!-- Description -->
+              <div class="col-md-6">
+                <div class="preview-field-box p-3 rounded-3 border bg-light h-100">
+                  <span class="text-muted small fw-bold text-uppercase d-block mb-1">Description</span>
+                  <h6 class="fw-bold text-dark mb-2">{{ draftPost.title }}</h6>
+                  <p class="text-secondary small mb-0" style="white-space: pre-line;">
+                    {{ draftPost.description }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Amenities -->
+              <div class="col-md-6">
+                <div class="preview-field-box p-3 rounded-3 border bg-light h-100">
+                  <span class="text-muted small fw-bold text-uppercase d-block mb-2">Amenities</span>
+                  @if (draftPost.amenities.length === 0) {
+                    <span class="text-muted small">No amenities selected.</span>
+                  } @else {
+                    <div class="d-flex flex-wrap gap-1">
+                      @for (amenity of draftPost.amenities; track amenity) {
+                        <span class="badge bg-white text-dark border p-2 small">
+                          <i class="bi bi-check text-success me-1"></i> {{ amenity }}
+                        </span>
+                      }
+                    </div>
+                  }
+
+                  <div class="mt-3 pt-2 border-top small text-muted">
+                    <div><strong>Stay Type:</strong> {{ draftPost.stayType }}</div>
+                    <div><strong>Furnished:</strong> {{ draftPost.isFurnished ? 'Yes' : 'No' }}</div>
+                    <div><strong>Veg Preference:</strong> {{ draftPost.vegPreference }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Wireframe Row 4: Photos Grid (Page 6 3-box wireframe layout) -->
+            <div class="mb-4">
+              <span class="text-muted small fw-bold text-uppercase d-block mb-2">Photos ({{ draftPost.photos.length }})</span>
+              <div class="row g-3">
+                @for (photo of draftPost.photos; track photo; let idx = $index) {
+                  <div class="col-md-4 col-sm-6">
+                    <div class="photo-preview-item rounded-3 overflow-hidden border shadow-sm">
+                      <img [src]="photo" [alt]="'Photo ' + (idx + 1)" class="w-100 h-100 object-fit-cover" />
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Landlord Contact Preview -->
+            <div class="p-3 rounded-3 border bg-light mb-4 d-flex flex-wrap align-items-center justify-content-between gap-2 small">
+              <div>
+                <span class="text-muted">Landlord:</span>
+                <strong class="text-dark ms-1">{{ draftPost.contact.landlordName }}</strong>
+              </div>
+              <div>
+                <span class="text-muted">Phone:</span>
+                <strong class="text-dark ms-1">{{ draftPost.contact.phone }}</strong>
+              </div>
+              <div>
+                <span class="text-muted">Email:</span>
+                <strong class="text-dark ms-1">{{ draftPost.contact.email }}</strong>
+              </div>
+            </div>
+
+            <!-- Action Buttons: Edit / Go Back & Confirm & Submit -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 pt-3 border-top">
+              <button
+                type="button"
+                class="btn btn-outline-secondary px-4 py-2-5 rounded-pill fw-semibold d-flex align-items-center gap-2"
+                (click)="editPost()"
+              >
+                <i class="bi bi-pencil"></i>
+                <span>Edit Post Information</span>
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-success px-5 py-2-5 rounded-pill fw-semibold shadow-sm d-flex align-items-center gap-2"
+                [disabled]="isSubmitting"
+                (click)="confirmAndSubmit()"
+              >
+                @if (isSubmitting) {
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <span>Publishing...</span>
+                } @else {
+                  <i class="bi bi-check-circle-fill"></i>
+                  <span>Confirm and Submit Listing</span>
+                }
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+}

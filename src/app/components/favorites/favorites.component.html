@@ -1,0 +1,80 @@
+<div class="favorites-page py-5">
+  <div class="container">
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+      <div>
+        <h2 class="fw-bold mb-1 d-flex align-items-center gap-2">
+          <i class="bi bi-heart-fill text-danger"></i> Saved Favorites
+        </h2>
+        <p class="text-muted small mb-0">Your saved apartments and shortlisted rental options</p>
+      </div>
+
+      <a routerLink="/" class="btn btn-outline-primary btn-sm rounded-pill">
+        <i class="bi bi-search me-1"></i> Browse More Listings
+      </a>
+    </div>
+
+    @if (favoritedApartments.length === 0) {
+      <div class="text-center py-5 bg-white rounded-4 border shadow-sm my-4">
+        <div class="display-3 text-danger opacity-50 mb-3"><i class="bi bi-heart"></i></div>
+        <h4 class="fw-bold">No Saved Favorites Yet</h4>
+        <p class="text-muted">Click the heart icon on any apartment listing card to save it here for easy reference.</p>
+        <a routerLink="/" class="btn btn-primary rounded-pill px-4 py-2 mt-2">
+          Explore Available Apartments
+        </a>
+      </div>
+    } @else {
+      <div class="row g-4">
+        @for (apartment of favoritedApartments; track apartment.id) {
+          <div class="col-lg-4 col-md-6 col-12">
+            <div class="card h-100 border rounded-4 overflow-hidden shadow-sm bg-white d-flex flex-column">
+              <div class="position-relative" style="height: 200px;">
+                <img [src]="apartment.photos[0]" [alt]="apartment.title" class="w-100 h-100 object-fit-cover" />
+                <button
+                  class="btn btn-danger btn-sm rounded-circle position-absolute top-0 end-0 m-3 shadow"
+                  style="width: 36px; height: 36px;"
+                  (click)="removeFavorite(apartment)"
+                  title="Remove from favorites"
+                >
+                  <i class="bi bi-heart-fill"></i>
+                </button>
+                <div class="position-absolute bottom-0 start-0 p-2 bg-dark bg-opacity-75 text-white small rounded-end m-2">
+                  ${{ apartment.rent | number }}/mo
+                </div>
+              </div>
+
+              <div class="card-body p-4 d-flex flex-column flex-grow-1">
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle align-self-start mb-2">
+                  {{ apartment.propertyType }}
+                </span>
+                <h5 class="fw-bold text-dark text-truncate mb-1">{{ apartment.title }}</h5>
+                <p class="text-muted small mb-3">
+                  <i class="bi bi-geo-alt text-danger me-1"></i>
+                  {{ apartment.address.street }}, {{ apartment.address.city }}
+                </p>
+
+                <div class="d-flex align-items-center gap-3 text-secondary small py-2 mb-3 border-top border-bottom">
+                  <span>{{ apartment.bedrooms }} Bed</span>
+                  <span>&bull;</span>
+                  <span>{{ apartment.squareFeet }} sqft</span>
+                  <span>&bull;</span>
+                  <span>{{ apartment.stayType }}</span>
+                </div>
+
+                <div class="mt-auto d-flex gap-2">
+                  <button class="btn btn-primary flex-grow-1 fw-semibold rounded-3 py-2" (click)="viewDetails(apartment.id)">
+                    View Details
+                  </button>
+                  <button class="btn btn-outline-danger rounded-3 px-3 py-2" (click)="removeFavorite(apartment)" title="Remove">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="inquiries-page py-5">
+  <div class="container">
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+      <div>
+        <h2 class="fw-bold mb-1 d-flex align-items-center gap-2">
+          <i class="bi bi-chat-left-quote-fill text-primary"></i> Direct Rental Inquiries
+        </h2>
+        <p class="text-muted small mb-0">Track interest, inquiries sent to landlords, and incoming messages from renters</p>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="btn-group rounded-pill p-1 bg-white border shadow-sm">
+        <button
+          class="btn btn-sm rounded-pill px-3"
+          [class.btn-primary]="activeTab === 'received'"
+          [class.btn-light]="activeTab !== 'received'"
+          (click)="activeTab = 'received'"
+        >
+          <i class="bi bi-inbox-fill me-1"></i> Received Inquiries ({{ receivedInquiries.length }})
+        </button>
+        <button
+          class="btn btn-sm rounded-pill px-3"
+          [class.btn-primary]="activeTab === 'sent'"
+          [class.btn-light]="activeTab !== 'sent'"
+          (click)="activeTab = 'sent'"
+        >
+          <i class="bi bi-send-fill me-1"></i> Sent Inquiries ({{ sentInquiries.length }})
+        </button>
+      </div>
+    </div>
+
+    @if (activeTab === 'received') {
+      @if (receivedInquiries.length === 0) {
+        <div class="text-center py-5 bg-white rounded-4 border shadow-sm my-4">
+          <div class="display-3 text-muted mb-3"><i class="bi bi-inbox"></i></div>
+          <h4 class="fw-bold">No Inquiries Received Yet</h4>
+          <p class="text-muted">When prospective renters express interest in your listings, their inquiries will appear here.</p>
+        </div>
+      } @else {
+        <div class="row g-3">
+          @for (inq of receivedInquiries; track inq.id) {
+            <div class="col-12">
+              <div class="card border rounded-4 bg-white p-4 shadow-sm">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2 pb-2 border-bottom">
+                  <div>
+                    <h5 class="fw-bold text-dark mb-0">{{ inq.listingTitle }}</h5>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                      Status: {{ inq.status | uppercase }}
+                    </span>
+                  </div>
+                  <span class="text-muted small">{{ inq.createdAt | date:'medium' }}</span>
+                </div>
+
+                <div class="row g-2 my-2 small text-secondary">
+                  <div class="col-md-4">
+                    <strong>Prospective Renter:</strong> {{ inq.senderName }}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Email:</strong> {{ inq.senderEmail }}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Phone:</strong> {{ inq.senderPhone || 'Not provided' }}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Move-in Date:</strong> {{ inq.moveInDate | date:'mediumDate' }}
+                  </div>
+                </div>
+
+                <div class="p-3 bg-light rounded-3 border mt-2">
+                  <p class="mb-0 text-dark small">{{ inq.message }}</p>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    } @else {
+      @if (sentInquiries.length === 0) {
+        <div class="text-center py-5 bg-white rounded-4 border shadow-sm my-4">
+          <div class="display-3 text-muted mb-3"><i class="bi bi-send"></i></div>
+          <h4 class="fw-bold">No Sent Inquiries</h4>
+          <p class="text-muted">You haven't contacted any landlords yet. Browse apartments and click "Send Direct Inquiry" to reach out.</p>
+          <a routerLink="/" class="btn btn-primary rounded-pill px-4 py-2 mt-2">Browse Listings</a>
+        </div>
+      } @else {
+        <div class="row g-3">
+          @for (inq of sentInquiries; track inq.id) {
+            <div class="col-12">
+              <div class="card border rounded-4 bg-white p-4 shadow-sm">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2 pb-2 border-bottom">
+                  <div>
+                    <h5 class="fw-bold text-dark mb-0">{{ inq.listingTitle }}</h5>
+                    <span class="text-muted small">Sent to landlord</span>
+                  </div>
+                  <span class="text-muted small">{{ inq.createdAt | date:'medium' }}</span>
+                </div>
+
+                <div class="p-3 bg-light rounded-3 border mt-2">
+                  <span class="text-muted small d-block mb-1"><strong>Your message:</strong></span>
+                  <p class="mb-0 text-dark small">{{ inq.message }}</p>
+                </div>
+
+                <div class="mt-2 text-muted small">
+                  <strong>Target Move-in:</strong> {{ inq.moveInDate | date:'mediumDate' }}
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+
+  </div>
+</div>

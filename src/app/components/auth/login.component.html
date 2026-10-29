@@ -1,0 +1,89 @@
+<div class="auth-page py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7 col-lg-5">
+        
+        <div class="card border rounded-4 bg-white shadow-sm p-4 p-md-5">
+          <div class="text-center mb-4">
+            <div class="brand-badge bg-primary text-white rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 54px; height: 54px;">
+              <i class="bi bi-box-arrow-in-right fs-3"></i>
+            </div>
+            <h3 class="fw-bold mb-1">Login</h3>
+            <p class="text-muted small">Access your RentHub account to manage listings and inquiries</p>
+          </div>
+
+          @if (errorMessage) {
+            <div class="alert alert-danger py-2 small d-flex align-items-center gap-2 mb-3">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+              <span>{{ errorMessage }}</span>
+            </div>
+          }
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="form-label" for="loginEmail">Email <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text bg-light text-muted"><i class="bi bi-envelope"></i></span>
+                <input
+                  type="email"
+                  id="loginEmail"
+                  class="form-control"
+                  placeholder="name@example.com"
+                  formControlName="email"
+                  [class.is-invalid]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+                />
+              </div>
+              @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+                <div class="text-danger small mt-1">Please enter a valid email address.</div>
+              }
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4">
+              <label class="form-label" for="loginPassword">Password <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text bg-light text-muted"><i class="bi bi-lock"></i></span>
+                <input
+                  type="password"
+                  id="loginPassword"
+                  class="form-control"
+                  placeholder="Enter password"
+                  formControlName="password"
+                  [class.is-invalid]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+                />
+              </div>
+              @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+                <div class="text-danger small mt-1">Password must be at least 6 characters.</div>
+              }
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2-5 rounded-3 fw-semibold shadow-sm mb-3">
+              Login
+            </button>
+          </form>
+
+          <!-- Evaluator Quick Fill Box -->
+          <div class="p-3 bg-light rounded-3 border mb-3">
+            <span class="small fw-bold text-muted text-uppercase d-block mb-2">Evaluator Demo Accounts:</span>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-sm btn-outline-primary flex-grow-1" (click)="fillDemoLandlord()">
+                <i class="bi bi-person-fill-gear me-1"></i> Landlord Demo
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary flex-grow-1" (click)="fillDemoRenter()">
+                <i class="bi bi-person-fill me-1"></i> Renter Demo
+              </button>
+            </div>
+          </div>
+
+          <div class="text-center pt-2 border-top">
+            <span class="small text-muted">Don't have an account? </span>
+            <a routerLink="/register" class="small fw-bold text-decoration-none">Register here</a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

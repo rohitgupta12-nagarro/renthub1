@@ -1,0 +1,448 @@
+@if (apartment) {
+  <div class="listing-detail-page py-4">
+    <div class="container">
+
+      <!-- Breadcrumbs & Navigation -->
+      <nav aria-label="breadcrumb" class="mb-3 d-flex align-items-center justify-content-between">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>
+          <li class="breadcrumb-item active text-truncate" style="max-width: 320px;">{{ apartment.title }}</li>
+        </ol>
+
+        <a routerLink="/" class="btn btn-outline-secondary btn-sm rounded-pill d-inline-flex align-items-center gap-1">
+          <i class="bi bi-arrow-left"></i> Back to Listings
+        </a>
+      </nav>
+
+      <!-- Main Layout: Gallery & Details -->
+      <div class="row g-4 mb-5">
+        
+        <!-- Left: Image Gallery & Details -->
+        <div class="col-lg-8">
+          
+          <!-- Photo Gallery Showcase -->
+          <div class="gallery-card bg-white rounded-4 border overflow-hidden shadow-sm mb-4">
+            <div class="main-photo-wrapper position-relative">
+              <img
+                [src]="apartment.photos[selectedPhotoIndex] || apartment.photos[0]"
+                [alt]="apartment.title"
+                class="main-photo w-100 object-fit-cover"
+              />
+
+              <!-- Favorite Button -->
+              <button
+                class="btn btn-light rounded-circle position-absolute top-0 end-0 m-3 shadow d-flex align-items-center justify-content-center btn-fav-detail"
+                [class.text-danger]="favoritesService.isFavorite(apartment.id)"
+                [class.text-secondary]="!favoritesService.isFavorite(apartment.id)"
+                (click)="toggleFavorite()"
+                [title]="favoritesService.isFavorite(apartment.id) ? 'Remove Favorite' : 'Mark as Favorite'"
+              >
+                <i class="bi fs-4" [class.bi-heart-fill]="favoritesService.isFavorite(apartment.id)" [class.bi-heart]="!favoritesService.isFavorite(apartment.id)"></i>
+              </button>
+
+              <div class="position-absolute bottom-0 start-0 m-3">
+                <span class="badge bg-dark bg-opacity-75 text-white px-3 py-2 rounded-pill small">
+                  Photo {{ selectedPhotoIndex + 1 }} of {{ apartment.photos.length }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Thumbnails strip -->
+            @if (apartment.photos.length > 1) {
+              <div class="thumbnails-strip p-3 bg-light border-top d-flex gap-2 overflow-x-auto">
+                @for (photo of apartment.photos; track photo; let idx = $index) {
+                  <button
+                    class="thumb-btn border rounded-3 p-0 overflow-hidden"
+                    [class.active]="idx === selectedPhotoIndex"
+                    (click)="selectPhoto(idx)"
+                  >
+                    <img [src]="photo" [alt]="'Thumbnail ' + idx" class="thumb-img" />
+                  </button>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- Description & Overview Section -->
+          <div class="card border rounded-4 p-4 p-md-5 bg-white shadow-sm mb-4">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-primary px-3 py-2 rounded-pill fw-semibold">{{ apartment.propertyType }}</span>
+                @if (apartment.isShared) {
+                  <span class="badge bg-info text-dark px-3 py-2 rounded-pill fw-semibold">Shared Property</span>
+                }
+                @if (apartment.isFeatured) {
+                  <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-semibold">
+                    <i class="bi bi-star-fill me-1"></i> Featured
+                  </span>
+                }
+              </div>
+              <span class="text-muted small">
+                <i class="bi bi-calendar3 me-1"></i> Posted on {{ apartment.createdAt | date:'mediumDate' }}
+              </span>
+            </div>
+
+            <h1 class="h3 fw-bold text-dark mb-2">{{ apartment.title }}</h1>
+            <p class="text-muted mb-4 d-flex align-items-center gap-1">
+              <i class="bi bi-geo-alt-fill text-danger fs-5"></i>
+              <span>{{ apartment.address.street }}, {{ apartment.address.city }}, {{ apartment.address.state }} {{ apartment.address.zipCode }}</span>
+            </p>
+
+            <!-- Key Specifications Grid -->
+            <div class="row g-3 p-3 bg-light rounded-3 border mb-4">
+              <div class="col-6 col-md-3">
+                <small class="text-muted d-block">Bedrooms</small>
+                <span class="fw-bold fs-5 text-dark"><i class="bi bi-door-closed text-primary me-1"></i> {{ apartment.bedrooms }} Bed</span>
+              </div>
+              <div class="col-6 col-md-3">
+                <small class="text-muted d-block">Bathrooms</small>
+                <span class="fw-bold fs-5 text-dark"><i class="bi bi-droplet text-primary me-1"></i> {{ apartment.bathrooms }} Bath</span>
+              </div>
+              <div class="col-6 col-md-3">
+                <small class="text-muted d-block">Total Space</small>
+                <span class="fw-bold fs-5 text-dark"><i class="bi bi-aspect-ratio text-primary me-1"></i> {{ apartment.squareFeet | number }} sqft</span>
+              </div>
+              <div class="col-6 col-md-3">
+                <small class="text-muted d-block">Furnished</small>
+                <span class="fw-bold fs-5 text-dark"><i class="bi bi-lamp text-primary me-1"></i> {{ apartment.isFurnished ? 'Yes' : 'No' }}</span>
+              </div>
+            </div>
+
+            <!-- More Details (Lease, Veg Pref, Price Mode) -->
+            <div class="row g-3 mb-4 text-secondary small">
+              <div class="col-sm-4">
+                <strong>Stay / Lease Type:</strong>
+                <p class="text-dark fw-medium mb-0">{{ apartment.stayType }}</p>
+              </div>
+              <div class="col-sm-4">
+                <strong>Food Preference:</strong>
+                <p class="text-dark fw-medium mb-0">{{ apartment.vegPreference }}</p>
+              </div>
+              <div class="col-sm-4">
+                <strong>Building / Society:</strong>
+                <p class="text-dark fw-medium mb-0">{{ apartment.buildingName }}</p>
+              </div>
+            </div>
+
+            <h5 class="fw-bold text-dark mb-2">Description</h5>
+            <p class="text-secondary leading-relaxed mb-4" style="white-space: pre-line;">
+              {{ apartment.description }}
+            </p>
+
+            <!-- Amenities Included (Page 5 checklist) -->
+            <h5 class="fw-bold text-dark mb-3">Amenities Included</h5>
+            <div class="row g-2 mb-2">
+              @for (amenity of apartment.amenities; track amenity) {
+                <div class="col-md-4 col-sm-6">
+                  <div class="p-2 border rounded-3 bg-light d-flex align-items-center gap-2 small">
+                    <i class="bi bi-check-circle-fill text-success fs-6"></i>
+                    <span class="fw-medium text-dark">{{ amenity }}</span>
+                  </div>
+                </div>
+              }
+            </div>
+
+          </div>
+
+          <!-- Comments & Discussion Section (Wireframe Page 6) -->
+          <div class="card border rounded-4 p-4 p-md-5 bg-white shadow-sm">
+            <div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom">
+              <div>
+                <h4 class="fw-bold mb-0">Comments & Inquiries</h4>
+                <p class="text-muted small mb-0">Ask questions, request information, or discuss rental terms</p>
+              </div>
+              <span class="badge bg-secondary rounded-pill px-3 py-2">{{ comments.length }} comment{{ comments.length === 1 ? '' : 's' }}</span>
+            </div>
+
+            <!-- Existing Comments Thread (Wireframe: User 1, User 2 with nested replies) -->
+            <div class="comments-list mb-4">
+              @if (comments.length === 0) {
+                <div class="text-center py-4 bg-light rounded-3 text-muted">
+                  <i class="bi bi-chat-dots fs-3 d-block mb-1"></i>
+                  <span>No questions or comments yet. Be the first to start the discussion!</span>
+                </div>
+              }
+
+              @for (comment of comments; track comment.id) {
+                <div class="comment-card p-3 rounded-3 border bg-light mb-3">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <img [src]="comment.userAvatar" [alt]="comment.userName" class="rounded-circle user-avatar-comment" />
+                      <div>
+                        <span class="fw-bold text-dark">{{ comment.userName }}</span>
+                        @if (comment.userRole) {
+                          <span class="badge bg-secondary-subtle text-secondary border ms-2 text-capitalize" style="font-size: 0.7rem;">
+                            {{ comment.userRole }}
+                          </span>
+                        }
+                      </div>
+                    </div>
+                    <span class="text-muted small">{{ comment.createdAt | date:'short' }}</span>
+                  </div>
+
+                  <p class="text-secondary mb-2 ps-1">{{ comment.text }}</p>
+
+                  <div class="d-flex align-items-center gap-3 pt-1 border-top border-secondary border-opacity-10">
+                    <button class="btn btn-sm btn-link text-decoration-none p-0 text-primary fw-medium" (click)="openReplyBox(comment.id)">
+                      <i class="bi bi-reply-fill"></i> Reply
+                    </button>
+                    @if (currentUser && currentUser.id === comment.userId) {
+                      <button class="btn btn-sm btn-link text-decoration-none p-0 text-danger ms-auto" (click)="deleteComment(comment.id)">
+                        <i class="bi bi-trash"></i> Delete
+                      </button>
+                    }
+                  </div>
+
+                  <!-- Nested Replies -->
+                  @if (comment.replies && comment.replies.length > 0) {
+                    <div class="nested-replies-thread ps-3 ps-md-4 mt-3 border-start border-2 border-primary border-opacity-25">
+                      @for (reply of comment.replies; track reply.id) {
+                        <div class="reply-card p-2 p-md-3 rounded-3 bg-white border mb-2">
+                          <div class="d-flex align-items-center justify-content-between mb-1">
+                            <div class="d-flex align-items-center gap-2">
+                              <img [src]="reply.userAvatar" [alt]="reply.userName" class="rounded-circle" style="width: 24px; height: 24px;" />
+                              <span class="fw-bold small text-dark">{{ reply.userName }}</span>
+                              @if (reply.userRole) {
+                                <span class="badge bg-primary-subtle text-primary border" style="font-size: 0.65rem;">
+                                  {{ reply.userRole }}
+                                </span>
+                              }
+                            </div>
+                            <span class="text-muted" style="font-size: 0.75rem;">{{ reply.createdAt | date:'short' }}</span>
+                          </div>
+                          <p class="text-secondary small mb-0">{{ reply.text }}</p>
+                          @if (currentUser && currentUser.id === reply.userId) {
+                            <div class="text-end mt-1">
+                              <button class="btn btn-sm btn-link text-danger text-decoration-none p-0" (click)="deleteComment(reply.id)">
+                                <i class="bi bi-trash" style="font-size: 0.75rem;"></i>
+                              </button>
+                            </div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  <!-- Inline Reply Box -->
+                  @if (activeReplyCommentId === comment.id) {
+                    <div class="mt-3 p-3 bg-white rounded-3 border">
+                      <div class="mb-2">
+                        <textarea
+                          class="form-control form-control-sm"
+                          rows="2"
+                          placeholder="Write your reply to {{ comment.userName }}..."
+                          [(ngModel)]="replyText"
+                        ></textarea>
+                      </div>
+                      <div class="d-flex justify-content-end gap-2">
+                        <button class="btn btn-outline-secondary btn-sm" (click)="cancelReply()">Cancel</button>
+                        <button class="btn btn-primary btn-sm" (click)="submitReply(comment.id)">Post Reply</button>
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Leave a Comment Form (Wireframe Page 6) -->
+            <div class="leave-comment-box p-3 p-md-4 rounded-3 border bg-light">
+              <h6 class="fw-bold text-dark mb-2">Leave a Comment</h6>
+              <div class="mb-3">
+                <textarea
+                  class="form-control"
+                  rows="3"
+                  placeholder="Ask a question about rental terms, parking, move-in date..."
+                  [(ngModel)]="newCommentText"
+                ></textarea>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">
+                  @if (authService.isAuthenticated()) {
+                    Posting as <strong>{{ currentUser?.name }}</strong>
+                  } @else {
+                    You will be prompted to log in to post.
+                  }
+                </small>
+                <button
+                  type="button"
+                  class="btn btn-primary px-4 fw-semibold rounded-3"
+                  (click)="submitComment()"
+                >
+                  <i class="bi bi-send me-1"></i> Submit
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Right Sidebar: Price & Landlord Contact Box -->
+        <div class="col-lg-4">
+          <div class="sticky-top" style="top: 80px;">
+            
+            <!-- Price Summary Card -->
+            <div class="card border rounded-4 p-4 bg-white shadow-sm mb-4">
+              <span class="text-muted small text-uppercase fw-bold tracking-wider">Expected Rent</span>
+              <div class="d-flex align-items-baseline gap-1 my-2">
+                <span class="display-6 fw-bold text-primary">${{ apartment.rent | number }}</span>
+                <span class="text-muted">/ {{ apartment.priceMode === 'Per Month' ? 'month' : 'month (utilities included)' }}</span>
+              </div>
+
+              @if (apartment.isNegotiable) {
+                <div class="mb-3">
+                  <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">
+                    <i class="bi bi-tag-fill me-1"></i> Price Negotiable
+                  </span>
+                </div>
+              }
+
+              <!-- Favorite Toggle Action -->
+              <button
+                class="btn w-100 py-2-5 fw-semibold rounded-3 mb-2 d-flex align-items-center justify-content-center gap-2"
+                [class.btn-danger]="favoritesService.isFavorite(apartment.id)"
+                [class.btn-outline-danger]="!favoritesService.isFavorite(apartment.id)"
+                (click)="toggleFavorite()"
+              >
+                <i class="bi fs-5" [class.bi-heart-fill]="favoritesService.isFavorite(apartment.id)" [class.bi-heart]="!favoritesService.isFavorite(apartment.id)"></i>
+                <span>{{ favoritesService.isFavorite(apartment.id) ? 'Saved in Your Favorites' : 'Mark as Favorite' }}</span>
+              </button>
+
+              <!-- Send Direct Inquiry (Wireframe Interest Expression requirement) -->
+              <button
+                class="btn btn-primary w-100 py-2-5 fw-semibold rounded-3 d-flex align-items-center justify-content-center gap-2 shadow-sm"
+                (click)="openInquiryModal()"
+              >
+                <i class="bi bi-envelope-paper-fill"></i>
+                <span>Send Direct Inquiry</span>
+              </button>
+            </div>
+
+            <!-- Landlord Contact Card (Page 2 & 5 requirements) -->
+            <div class="card border rounded-4 p-4 bg-white shadow-sm">
+              <h6 class="fw-bold text-dark text-uppercase small tracking-wider mb-3">Landlord & Property Manager</h6>
+              
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold fs-5" style="width: 48px; height: 48px;">
+                  {{ apartment.contact.landlordName.charAt(0) }}
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-0 text-dark">{{ apartment.contact.landlordName }}</h6>
+                  <span class="badge bg-secondary-subtle text-secondary small">Verified Host</span>
+                </div>
+              </div>
+
+              <div class="list-group list-group-flush small">
+                <div class="list-group-item px-0 py-2 d-flex align-items-center gap-2 text-secondary">
+                  <i class="bi bi-telephone-fill text-primary"></i>
+                  <span>{{ apartment.contact.phone }}</span>
+                </div>
+                <div class="list-group-item px-0 py-2 d-flex align-items-center gap-2 text-secondary">
+                  <i class="bi bi-envelope-fill text-primary"></i>
+                  <span>{{ apartment.contact.email }}</span>
+                </div>
+              </div>
+
+              <div class="p-3 bg-light rounded-3 mt-3 small text-muted">
+                <i class="bi bi-shield-check text-success me-1"></i>
+                <span>Direct inquiries are monitored by RentHub to ensure quick and transparent communication.</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Send Inquiry Modal (Interest Expression requirement) -->
+  @if (showInquiryModal) {
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+          <div class="modal-header border-bottom py-3">
+            <h5 class="modal-title fw-bold">
+              <i class="bi bi-envelope-paper text-primary me-2"></i> Send Inquiry to Landlord
+            </h5>
+            <button type="button" class="btn-close" (click)="closeInquiryModal()" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4">
+            <p class="text-muted small mb-3">
+              Inquiring about: <strong>{{ apartment.title }}</strong> (${{ apartment.rent }}/mo)
+            </p>
+
+            <form (ngSubmit)="submitInquiry()">
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Your Full Name <span class="text-danger">*</span></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter your name"
+                  [(ngModel)]="inquiryForm.senderName"
+                  name="senderName"
+                  required
+                />
+              </div>
+
+              <div class="row g-2 mb-3">
+                <div class="col-sm-6">
+                  <label class="form-label small fw-bold">Email Address <span class="text-danger">*</span></label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="name@example.com"
+                    [(ngModel)]="inquiryForm.senderEmail"
+                    name="senderEmail"
+                    required
+                  />
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label small fw-bold">Phone Number</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    placeholder="+1 (555) 000-0000"
+                    [(ngModel)]="inquiryForm.senderPhone"
+                    name="senderPhone"
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Preferred Move-in Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  [(ngModel)]="inquiryForm.moveInDate"
+                  name="moveInDate"
+                />
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label small fw-bold">Message to Landlord <span class="text-danger">*</span></label>
+                <textarea
+                  class="form-control"
+                  rows="4"
+                  placeholder="Introduce yourself, mention who will be living here, your occupation..."
+                  [(ngModel)]="inquiryForm.message"
+                  name="message"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-outline-secondary rounded-3" (click)="closeInquiryModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary rounded-3 px-4 fw-semibold">
+                  <i class="bi bi-send-fill me-1"></i> Send Inquiry
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+}
