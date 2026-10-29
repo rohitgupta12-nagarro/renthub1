@@ -146,7 +146,7 @@ body {
 .btn-outline-primary {
   border: 1.5px solid var(--rh-primary);
   color: var(--rh-primary);
-  background-color: #ffffff;
+  background-color: transparent;
   padding: 0.58rem 1.3rem;
 
   &:hover {
@@ -159,6 +159,18 @@ body {
 
   &:active {
     transform: translateY(0);
+  }
+}
+
+/* Small Button refinement */
+.btn.btn-sm {
+  padding: 0.38rem 0.95rem;
+  font-size: 0.85rem;
+  border-radius: 8px;
+
+  &.rounded-pill {
+    padding: 0.38rem 1.15rem;
+    border-radius: 9999px;
   }
 }
 

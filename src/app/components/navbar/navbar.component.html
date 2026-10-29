@@ -53,11 +53,13 @@
         @if (!currentUser) {
           <!-- Guest Navigation (Wireframe Page 3) -->
           <div class="d-flex align-items-center gap-2">
-            <a routerLink="/login" class="btn btn-outline-light btn-sm px-3 py-1-5 rounded-pill fw-medium">
-              Login
+            <a routerLink="/login" class="btn btn-nav-login btn-sm rounded-pill fw-medium d-inline-flex align-items-center gap-1">
+              <i class="bi bi-box-arrow-in-right"></i>
+              <span>Login</span>
             </a>
-            <a routerLink="/register" class="btn btn-outline-primary btn-sm px-3 py-1-5 rounded-pill fw-medium text-white border-primary">
-              Register
+            <a routerLink="/register" class="btn btn-nav-register btn-sm rounded-pill fw-semibold shadow-sm d-inline-flex align-items-center gap-1">
+              <i class="bi bi-person-plus-fill"></i>
+              <span>Register</span>
             </a>
           </div>
         } @else {

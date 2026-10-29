@@ -56,3 +56,46 @@
     color: #0f766e;
   }
 }
+
+/* Nav Action Buttons */
+.btn-nav-login {
+  color: #f1f5f9;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.38rem 1rem !important;
+  font-size: 0.88rem;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.btn-nav-register {
+  background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
+  color: #ffffff !important;
+  border: 1.5px solid rgba(45, 212, 191, 0.5);
+  box-shadow: 0 4px 14px rgba(15, 118, 110, 0.4);
+  padding: 0.38rem 1.15rem !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, #0d9488 0%, #115e59 100%);
+    color: #ffffff !important;
+    border-color: #5eead4;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(20, 184, 166, 0.5);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
