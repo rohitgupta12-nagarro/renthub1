@@ -1,3 +1,8 @@
+footer {
+  background: linear-gradient(180deg, #091e26 0%, #05141a 100%) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
 .hover-white:hover {
   color: #ffffff !important;
   transition: color 0.2s ease;
@@ -6,4 +11,3 @@
 .tracking-wider {
   letter-spacing: 0.05em;
 }
-

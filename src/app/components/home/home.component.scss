@@ -99,7 +99,8 @@
   .form-control {
     border-color: #e2e8f0;
     &:focus {
-      border-color: #3b82f6;
+      border-color: #0f766e;
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
     }
   }
   .input-group-text {
@@ -109,22 +110,36 @@
 
 .amenity-filter-btn {
   font-size: 0.8rem;
-  padding: 0.35rem 0.8rem;
-  transition: all 0.15s ease;
+  padding: 0.35rem 0.85rem;
+  transition: all 0.2s ease;
+  border-radius: 9999px;
+
+  &.btn-primary {
+    background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
+    box-shadow: 0 2px 8px rgba(15, 118, 110, 0.25);
+  }
+
+  &.btn-light:hover {
+    background-color: #f0fdfa;
+    border-color: #99f6e4 !important;
+    color: #0f766e;
+  }
 }
 
 /* Clean Listings Card (Request 4: De-cluttered, clean & Request 5: Heart button only) */
 .clean-listing-card {
   cursor: pointer;
   border-radius: 16px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #ffffff;
+  border: 1px solid #e6edf0;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 16px 30px -6px rgba(15, 118, 110, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.04) !important;
 
     .listing-card-img {
-      transform: scale(1.03);
+      transform: scale(1.04);
     }
   }
 }
@@ -138,20 +153,23 @@
   .listing-card-img {
     height: 200px;
     max-height: 200px;
-    transition: transform 0.35s ease;
+    transition: transform 0.4s ease;
   }
 }
 
 .btn-floating-heart {
   width: 38px;
   height: 38px;
-  background-color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.15);
     background-color: #ffffff;
+    box-shadow: 0 6px 16px rgba(244, 63, 94, 0.25);
   }
 }
 
@@ -168,15 +186,24 @@
 .pagination {
   .page-link {
     color: #334155;
-    font-weight: 500;
-    border-radius: 8px;
-    margin: 0 3px;
-    border: 1px solid #e2e8f0;
+    font-weight: 600;
+    border-radius: 10px;
+    margin: 0 4px;
+    border: 1.5px solid #e2e8f0;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #f0fdfa;
+      border-color: #0f766e;
+      color: #0f766e;
+      transform: translateY(-1px);
+    }
   }
 
   .page-item.active .page-link {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+    background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
+    border-color: #0f766e;
     color: #ffffff;
+    box-shadow: 0 4px 12px rgba(15, 118, 110, 0.35);
   }
 }

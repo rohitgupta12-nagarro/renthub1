@@ -1,8 +1,15 @@
+.navbar {
+  background: linear-gradient(135deg, #0d252f 0%, #133845 100%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
 .brand-icon {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #0d6efd 0%, #00b4d8 100%);
-  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(20, 184, 166, 0.3);
 }
 
 .brand-text {
@@ -13,8 +20,8 @@
 .nav-link {
   font-weight: 500;
   color: #cbd5e1;
-  padding: 0.5rem 0.85rem !important;
-  border-radius: 8px;
+  padding: 0.5rem 0.95rem !important;
+  border-radius: 9999px;
   transition: all 0.2s ease;
 
   &:hover {
@@ -24,7 +31,7 @@
 
   &.active {
     color: #ffffff !important;
-    background-color: rgba(13, 110, 253, 0.2);
+    background-color: rgba(20, 184, 166, 0.22);
   }
 }
 
@@ -36,7 +43,7 @@
 
 .dropdown-menu {
   min-width: 220px;
-  border-radius: 12px;
+  border-radius: 14px;
 }
 
 .dropdown-item {
@@ -45,7 +52,7 @@
   transition: all 0.15s ease;
 
   &:hover {
-    background-color: #f1f5f9;
+    background-color: #f0fdfa;
+    color: #0f766e;
   }
 }
-

@@ -10,10 +10,15 @@
 .btn-fav-detail {
   width: 48px;
   height: 48px;
-  transition: transform 0.2s ease;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.12);
+    box-shadow: 0 6px 18px rgba(244, 63, 94, 0.25);
   }
 }
 
@@ -27,8 +32,8 @@
 
   &.active, &:hover {
     opacity: 1;
-    border-color: #0d6efd !important;
-    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.4);
+    border-color: #0f766e !important;
+    box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.4);
   }
 
   .thumb-img {
@@ -50,5 +55,5 @@
 
 .modal {
   background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
 }
-
