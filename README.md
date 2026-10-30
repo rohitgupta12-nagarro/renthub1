@@ -17,7 +17,7 @@ RentHub is a comprehensive, modern apartment rental platform connecting prospect
 
 | Deliverable | Link / Details |
 | :--- | :--- |
-| **GitHub Repository** | `https://github.com/<your-username>/renthub` *(Upload code excluding `node_modules`)* |
+| **GitHub Repository** | `https://github.com/rohitgupta12-nagarro/renthub1` |
 | **Live Deployed Application** | `https://renthub-app.vercel.app` *(Deployable in 1 click to Vercel/Netlify; see Deployment section)* |
 | **Target Framework** | Angular CLI `22.2.5` / Angular `22.2.0` (Latest Version) |
 | **CSS Library** | Bootstrap `5.3.8` & Bootstrap Icons `1.11.3` + Custom Nordic Teal Design System |
@@ -173,8 +173,8 @@ renthub/
 ### Steps:
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/<your-username>/renthub.git
-   cd renthub
+   git clone https://github.com/rohitgupta12-nagarro/renthub1.git
+   cd renthub1
    ```
 
 2. **Install dependencies**:
