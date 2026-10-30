@@ -7,7 +7,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952b3.svg?logo=bootstrap)](https://getbootstrap.com/)
 [![Tests](https://img.shields.io/badge/Unit%20Tests-28%20Passing-success.svg)](#-unit-testing-component-service-module)
-[![Deployment](https://img.shields.io/badge/Deployment-Vercel%20%7C%20Netlify-000000.svg)](https://vercel.com/)
+[![Deployment](https://img.shields.io/badge/Deployed-Netlify-00ad9f.svg?logo=netlify)](https://renthub-rohit.netlify.app/)
 
 RentHub is a comprehensive, modern apartment rental platform connecting prospective renters with property owners and managers. Landlords can create, edit, and delete detailed property listings; renters can search, filter, and shortlist homes using interactive favorites; tenants can send direct private inquiries; and both parties can engage in transparent public discussions with nested multi-level reply threads.
 
@@ -17,8 +17,8 @@ RentHub is a comprehensive, modern apartment rental platform connecting prospect
 
 | Deliverable | Link / Details |
 | :--- | :--- |
-| **GitHub Repository** | `https://github.com/rohitgupta12-nagarro/renthub1` |
-| **Live Deployed Application** | `https://renthub-app.vercel.app` *(Deployable in 1 click to Vercel/Netlify; see Deployment section)* |
+| **GitHub Repository** | [`https://github.com/rohitgupta12-nagarro/renthub1`](https://github.com/rohitgupta12-nagarro/renthub1) |
+| **Live Deployed Application** | [`https://renthub-rohit.netlify.app/`](https://renthub-rohit.netlify.app/) |
 | **Target Framework** | Angular CLI `22.2.5` / Angular `22.2.0` (Latest Version) |
 | **CSS Library** | Bootstrap `5.3.8` & Bootstrap Icons `1.11.3` + Custom Nordic Teal Design System |
 
